@@ -1,0 +1,126 @@
+/* Logo styling */
+.trimexlogo a {
+    text-decoration: none;
+    color: black;
+    padding: 6px 12px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+}
+
+/* Navbar container */
+.navbar {
+    background-color: #333;
+    overflow: visible; /* Important: allows dropdown to show */
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    position: relative;
+    z-index: 999;
+}
+
+/* Push right section to the end */
+.nav-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* General link style */
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    transition: background 0.3s;
+}
+
+.navbar a.active {
+    background-color: green;
+    color: white;
+    border-radius: 5px;
+}
+
+.navbar a:hover {
+    background-color: #575757;
+    border-radius: 6px;
+}
+
+/* Logout button styling */
+.navbar a.logout {
+    background-color: #dc3545;
+    color: white;
+    border-radius: 5px;
+    padding: 10px 12px;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.2s ease;
+}
+
+.navbar a.logout:hover {
+    background-color: #c82333;
+}
+
+/* Profile dropdown container */
+.profile-dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+    z-index: 1001;
+}
+
+/* Profile button style */
+.profile-btn {
+    background-color: transparent;
+    color: white;
+    border: none;
+    padding: 10px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.profile-btn:hover {
+    background-color: #444;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: #444;
+    min-width: 160px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1002;
+    flex-direction: column;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.dropdown-menu a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-menu a:hover {
+    background-color: #575757;
+}
+
+/* Show dropdown when toggled */
+.profile-dropdown.show .dropdown-menu {
+    display: flex;
+}
+
+/* Optional logout inside dropdown */
+.dropdown-menu a.logout {
+    background-color: #dc3545;
+    text-align: center;
+}
+
+.dropdown-menu a.logout:hover {
+    background-color: #c82333;
+}

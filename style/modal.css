@@ -1,0 +1,18 @@
+.floating-upload-btn {
+  position: fixed;
+  top: 900px;
+  right: 20px;
+  padding: 20px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  z-index: 10000;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s;
+}
+
+.floating-upload-btn:hover {
+  background: #0056b3;
+}

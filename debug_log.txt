@@ -1,0 +1,7 @@
+Array
+(
+    [filename] => Cephalometric_Tracing_Cheat_Sheet.pdf
+    [url] => https://firebasestorage.googleapis.com/v0/b/ctraker-7f380.firebasestorage.app/o/pdfs%2FCephalometric_Tracing_Cheat_Sheet.pdf?alt=media&token=6140027b-a4bb-445b-8cb0-af1949199dd9
+    [uploaded_by] => 123
+    [capstone_title] => wala lang
+)
