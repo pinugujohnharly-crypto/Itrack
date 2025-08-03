@@ -107,27 +107,24 @@ $role = $_SESSION['role'];
   <div style="background:white; padding:20px; width:500px; position:relative; border-radius:10px;">
     <button onclick="closeUploadModal()" style="position:absolute; top:5px; right:10px; font-size:18px;">&times;</button>
     <h3>Upload Capstone File</h3>
-    
     <form id="uploadForm">
       <label>Uploader:</label>
       <input type="text" name="uploader" value="<?= $_SESSION['username']; ?>" readonly style="width:100%; padding:10px; margin-bottom:10px;" />
-
       <label>Capstone Title:</label>
       <input type="text" name="title" placeholder="Enter capstone title" required style="width:100%; padding:10px; margin-bottom:10px;" />
-
       <label>Select PDF:</label>
       <input type="file" name="pdf" accept=".pdf" required style="width:100%; padding:10px; margin-bottom:10px;" />
-
       <button type="submit" style="padding:10px 20px; background:#007bff; color:white; border:none; border-radius:5px;">Upload</button>
     </form>
-
     <div id="uploadStatus" style="margin-top: 10px; font-weight: bold;"></div>
+
   </div>
+
 </div>
+
 <script src="src/dropdown.js"></script>
 <script type="module">
   import { openUploadModal, closeUploadModal } from './src/modal-control.js';
-
   // Attach the functions to buttons
   document.getElementById('openUploadBtn')?.addEventListener('click', openUploadModal);
   window.closeUploadModal = closeUploadModal; // used by modal close button
