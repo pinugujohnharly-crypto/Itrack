@@ -34,6 +34,7 @@ $role = $_SESSION['role'];
 
                 <!-- Profile Dropdown -->
                 <div class="profile-dropdown">
+                    <a>Welcome, <?= $_SESSION['username']; ?> (<?= $role ?>)</a>
                   <button class="profile-btn">Profile ▼</button>
                   <div class="dropdown-menu">
                     <a href="profile.php">My Profile</a>
@@ -43,7 +44,42 @@ $role = $_SESSION['role'];
                 </div>
               </div>
 
-                <?php if ($_SESSION['role'] === 'admin'): ?>
+<?php if (strtolower($_SESSION['role']) === 'admin' || strtolower($_SESSION['role']) === 'contributor'): ?>
+
+                  <!-- contri Modal -->
+              <button id="openContributorModal" class="btn-green">
+                    ➕ Create Contributor
+                    </button>
+
+<!-- Contributor Modal -->
+<div id="contributorModal" class="Cmodal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#00000080; justify-content:center; align-items:center;">
+  <div style="background:white; padding:20px; width:400px; position:relative; border-radius:10px;">
+    <button id="closeContributorModal" style="position:absolute; top:5px; right:10px; font-size:18px;">&times;</button>
+    <h3>Create Contributor Account</h3>
+    
+    <form id="contributorForm">
+      <label>First Name:</label>
+      <input type="text" name="first_name" required style="width:100%; padding:10px; margin-bottom:10px;" />
+
+      <label>Last Name:</label>
+      <input type="text" name="last_name" required style="width:100%; padding:10px; margin-bottom:10px;" />
+
+      <label>Username:</label>
+      <input type="text" name="username" required style="width:100%; padding:10px; margin-bottom:10px;" />
+
+      <label>Password:</label>
+      <input type="password" name="password" required style="width:100%; padding:10px; margin-bottom:10px;" />
+
+      <button type="submit" style="padding:10px 20px; background:#28a745; color:white; border:none; border-radius:5px;">Create</button>
+    </form>
+
+    <div id="contributorStatus" style="margin-top:10px; font-weight:bold;"></div>
+  </div>
+</div>
+<!-- Link the external JS -->
+<script src="src/contributor.js"></script>
+
+                  <!-- Admin Approval Modal -->
                     <button id="openApprovalModal" class="admin-btn">🛠 Pending Approvals</button>
               <?php endif; ?>
 
@@ -59,7 +95,7 @@ $role = $_SESSION['role'];
 
 
                 <script src="bundle.js"></script>
-                <h2>Welcome, <?= $_SESSION['username']; ?> (<?= $role ?>)</h2>
+
                 
                   <h2>Uploaded Files</h2>
                   <ul id="fileList"></ul>
