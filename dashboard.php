@@ -31,10 +31,31 @@ $role = $_SESSION['role'];
                 TRIMEX CAPSTONE TRACKER
               </a>
             </div>
+  <!-- Notification Bell -->
+    <div class="notif-wrap"> 
+      <a>Welcome, <?= $_SESSION['username']; ?> (<?= $role ?>)</a>
+  <button id="notifBtn" class="notif-btn" aria-haspopup="true" aria-expanded="false">
+    🔔
+    <span id="notifBadge" class="notif-badge" hidden>0</span>
+  </button>
+
+  <div id="notifDropdown" class="notif-dropdown" role="menu" aria-hidden="true">
+    <div class="notif-head">
+      <strong>Notifications</strong>
+      <button id="notifRefresh" class="notif-refresh" title="Refresh">↻</button>
+    </div>
+    <div id="notifList" class="notif-list">
+      <!-- items injected here -->
+    </div>
+    <div class="notif-foot">
+      <button id="notifClose" class="notif-close">Close</button>
+    </div>
+  </div>
+      </div>
 
                 <!-- Profile Dropdown -->
                 <div class="profile-dropdown">
-                    <a>Welcome, <?= $_SESSION['username']; ?> (<?= $role ?>)</a>
+                   
                   <button class="profile-btn">Profile ▼</button>
                   <div class="dropdown-menu">
                     <a href="profile.php">My Profile</a>
@@ -44,12 +65,13 @@ $role = $_SESSION['role'];
                 </div>
               </div>
 
-<?php if (strtolower($_SESSION['role']) === 'admin' || strtolower($_SESSION['role']) === 'contributor'): ?>
+<?php if (strtolower($_SESSION['role']) === 'admin'): ?>
 
                   <!-- contri Modal -->
               <button id="openContributorModal" class="btn-green">
                     ➕ Create Contributor
                     </button>
+              <?php endif; ?>
 
 <!-- Contributor Modal -->
 <div id="contributorModal" class="Cmodal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#00000080; justify-content:center; align-items:center;">
@@ -78,11 +100,10 @@ $role = $_SESSION['role'];
 </div>
 <!-- Link the external JS -->
 <script src="src/contributor.js"></script>
-
+<?php if (strtolower($_SESSION['role']) === 'admin' || strtolower($_SESSION['role']) === 'contributor'): ?>
                   <!-- Admin Approval Modal -->
                     <button id="openApprovalModal" class="admin-btn">🛠 Pending Approvals</button>
-              <?php endif; ?>
-
+      <?php endif; ?>
                   <!-- Admin Approval Modal -->
                   <div id="approvalModal" class="modal" style="display: none;">
                     <div class="modal-content">
