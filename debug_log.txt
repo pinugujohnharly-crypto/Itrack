@@ -1,7 +1,7 @@
 Array
 (
-    [filename] => Cephalometric_Tracing_Cheat_Sheet.pdf
-    [url] => https://firebasestorage.googleapis.com/v0/b/ctraker-7f380.firebasestorage.app/o/pdfs%2FCephalometric_Tracing_Cheat_Sheet.pdf?alt=media&token=6140027b-a4bb-445b-8cb0-af1949199dd9
+    [filename] => John Harly A. Pinugu.pdf
+    [url] => https://firebasestorage.googleapis.com/v0/b/ctraker-7f380.firebasestorage.app/o/pdfs%2FJohn%20Harly%20A.%20Pinugu.pdf?alt=media&token=fbf90856-04e1-4fa1-b90f-75a89352f282
     [uploaded_by] => 123
-    [capstone_title] => wala lang
+    [capstone_title] => ano
 )
