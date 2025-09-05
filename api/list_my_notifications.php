@@ -12,7 +12,7 @@ if (!$user_key) {
 }
 
 
-$sql = "SELECT id, title, body, status, created_at, revoked_at, revoke_reason, read_at
+$sql = "SELECT id, type, ref_id, title, body, status, created_at, revoked_at, revoke_reason, read_at
         FROM notifications
         WHERE user_key = ?
         ORDER BY created_at DESC

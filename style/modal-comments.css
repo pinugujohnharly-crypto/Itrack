@@ -1,103 +1,58 @@
-/* ===== Scrollable Comment Container ===== */
-.comments-wrapper {
-  flex-grow: 1;
-  overflow-y: auto;
-  max-height: 400px;  /* scroll area height */
-  padding: 10px;
-  margin-bottom: 10px;
-  background: #f9f9f9;
-  border: 1px solid #000000;
-  border-radius: 8px;
+/* =========================================
+   THEME TOKENS
+========================================= */
+:root {
+  --c-bg: #ffffff;
+  --c-surface: #f9f9f9;
+  --c-bubble: #ececec;
+  --c-text: #0b0b0b;
+  --c-muted: #65676b;
+  --c-primary: #1877f2;
+  --c-primary-hover: #166fe5;
+  --c-border: #dcdcdc;
+  --c-highlight: #fff7cc;
+  --radii: 12px;
+  --shadow: 0 2px 6px rgba(0,0,0,.08);
 }
 
-/* ===== Each Comment (inside #modalComments) ===== */
-#modalComments .comment {
-  display: flex;
-  align-items: flex-start;
-  margin-bottom: 15px;
-  gap: 10px;
-}
 
-/* Profile Picture Placeholder */
-#modalComments .avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #ccc; /* fallback if no image */
-  flex-shrink: 0;
-}
 
-/* Comment Bubble */
-#modalComments .comment-body {
-  background: #e4e1e1;
-  padding: 8px 12px;
-  border-radius: 18px;
-  box-shadow: 0 3px 2px rgba(0,0,0,0.1);
-  max-width: 200%;
-}
-
-/* Username */
-#modalComments .username {
-  font-weight: bold;
-  font-size: 14px;
-  margin-bottom: 2px;
-  color: #1c1e21;
-}
-
-/* Comment text */
-#modalComments .text {
-  font-size: 14px;
-  color: #050505;
-  line-height: 1.4;
-}
-
-/* Time + Actions */
-#modalComments .comment-actions {
-  font-size: 12px;
-  color: #65676b;
-  margin-top: 4px;
-}
-
-#modalComments .comment-actions span {
-  margin-right: 10px;
-  cursor: pointer;
-}
-
-#modalComments .comment-actions span:hover {
-  text-decoration: underline;
-}
-
-/* ===== Modal ===== */
+/* =========================================
+   MODAL
+========================================= */
 .modal {
   display: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: #00000080;
   justify-content: center;
   align-items: center;
   z-index: 999;
+  padding: 20px; /* keeps modal off screen edges */
 }
 
 .modal-content {
-  background: white;
-  padding: 20px;
-  width: 800px;
-  height: 800px;
+  background: var(--c-bg);
+  color: var(--c-text);
+  width: min(900px, 92vw);
+  max-height: min(85vh, 1000px);
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radii);
+  box-shadow: var(--shadow);
+  overflow: hidden; /* we’ll scroll inside, not the container */
   position: relative;
-  border-radius: 8px;
-  overflow-y: auto;
 }
 
 .close-btn {
   position: absolute;
-  top: 5px;
-  right: 10px;
+  top: 10px;
+  right: 12px;
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: 22px;
+  line-height: 1;
+  color: var(--c-muted);
   cursor: pointer;
 }
 
@@ -105,43 +60,179 @@
   margin-top: 10px;
   display: inline-block;
   text-decoration: none;
-  color: #007bff;
+  color: var(--c-primary);
 }
 
-/* ===== Comment Input Area ===== */
+/* Optional header area inside modal-content */
+.modal-header {
+  padding: 16px 20px 10px;
+  border-bottom: 1px solid var(--c-border);
+  background: var(--c-bg);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.modal-body {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden; /* prevent double scrollbars */
+}
+
+/* =========================================
+   COMMENTS SCROLLER
+========================================= */
+.comments-wrapper {
+  flex: 1;
+  overflow: auto;
+  max-height: none;            /* let flex control height */
+  padding: 12px;
+  margin-bottom: 10px;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radii);
+  scroll-behavior: smooth;     /* smooth jump to a reply */
+}
+
+/* nicer scrollbars (webkit) */
+.comments-wrapper::-webkit-scrollbar {
+  width: 10px;
+}
+.comments-wrapper::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,.2);
+  border-radius: 10px;
+}
+.comments-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* =========================================
+   COMMENT ITEM
+========================================= */
+#modalComments .comment {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 0 14px;
+}
+
+#modalComments .comment.reply {
+  margin-left: 46px; /* indent replies */
+}
+
+/* Avatar */
+#modalComments .avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #ccc;
+  flex-shrink: 0;
+}
+
+/* Bubble */
+#modalComments .comment-body {
+  background: var(--c-bubble);
+  padding: 10px 12px;
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  max-width: 100%;          /* prevent overflow */
+  word-wrap: break-word;    /* wrap long words */
+  overflow-wrap: anywhere;
+}
+
+/* Username + text */
+#modalComments .username {
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 3px;
+  color: var(--c-text);
+}
+
+#modalComments .text {
+  font-size: 14px;
+  color: var(--c-text);
+  line-height: 1.45;
+}
+
+/* Actions */
+#modalComments .comment-actions {
+  font-size: 12px;
+  color: var(--c-muted);
+  margin-top: 6px;
+  display: flex;
+  gap: 12px;
+}
+
+#modalComments .comment-actions span {
+  cursor: pointer;
+  user-select: none;
+}
+#modalComments .comment-actions span:hover {
+  text-decoration: underline;
+}
+
+/* Reply box inside a comment */
+#modalComments .reply-box {
+  margin-top: 8px;
+  display: grid;
+  gap: 8px;
+}
+
+/* Highlight when jumping to a reply */
+.comment.highlight .comment-body {
+  background: var(--c-highlight);
+  box-shadow: 0 0 0 2px rgba(255,223,99,.6) inset;
+  transition: background 1.2s ease;
+}
+
+/* =========================================
+   INPUT AREA (sticky at bottom)
+========================================= */
 .comment-input-area {
+  position: sticky;
+  bottom: 0;
+  padding: 10px 12px;
+  background: var(--c-bg);
+  border-top: 1px solid var(--c-border);
   display: flex;
   gap: 10px;
-  padding: 10px;
-  border-top: 1px solid #ddd;
-  background: #fff;
 }
 
 .comment-input-area textarea {
   flex: 1;
   resize: none;
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  padding: 8px 12px;
+  border: 1px solid var(--c-border);
+  border-radius: 16px;
+  padding: 10px 12px;
   font-size: 14px;
   outline: none;
+  background: var(--c-surface);
+  color: var(--c-text);
 }
 
 .comment-input-area textarea:focus {
-  border-color: #1877f2;
-  box-shadow: 0 0 0 1px #1877f2;
+  border-color: var(--c-primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--c-primary) 25%, transparent);
 }
 
 .comment-input-area button {
-  background: #1877f2;
+  background: var(--c-primary);
   color: #fff;
   border: none;
-  padding: 8px 15px;
-  border-radius: 20px;
+  padding: 10px 14px;
+  border-radius: 16px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 .comment-input-area button:hover {
-  background: #166fe5;
+  background: var(--c-primary-hover);
 }
+
+/* =========================================
+   NOTIFICATION EXTRAS
+========================================= */
+.notif-item.clickable { cursor: pointer; }
+.notif-dot.comment { background: #3b82f6; } /* adjust to taste */

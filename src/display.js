@@ -33,6 +33,12 @@ function timeAgo(ts) {
   const days = Math.floor(h/24); return days === 1 ? '1 day ago' : `${days} days ago`;
 }
 
+// 🆕 helper: try to pull "file: <filename>" from notif body
+function extractFilenameFromBody(body) {
+  const m = String(body || '').match(/file:\s*(.+)$/i);
+  return m ? m[1].trim() : '';
+}
+
 let currentFileName = null;
 
 // ===== Approved files list =====
@@ -74,9 +80,9 @@ async function listUploadedFiles() {
 // ===== File modal + comments =====
 function openModal(file) {
   document.getElementById('modalTitle').textContent = file.capstone_title || file.filename;
-  document.getElementById('modalUploader').textContent = file.uploaded_by;
-  document.getElementById('modalDate').textContent = file.date_uploaded;
-  document.getElementById('viewFileBtn').href = file.url;
+  document.getElementById('modalUploader').textContent = file.uploaded_by ?? '';
+  document.getElementById('modalDate').textContent = file.date_uploaded ?? '';
+  document.getElementById('viewFileBtn').href = file.url ?? '#';
   document.getElementById('fileModal').style.display = 'flex';
   document.getElementById('newComment').value = '';
 }
@@ -104,7 +110,91 @@ document.getElementById('postCommentBtn')?.addEventListener('click', () => {
   });
 });
 
-function fetchComments(filename) {
+// 🆕 tag each comment element so we can scroll/highlight a specific reply later
+function renderComment(comment, isReply = false) {
+  const commentEl = document.createElement('div');
+  commentEl.classList.add('comment');
+  if (isReply) commentEl.classList.add('reply');
+  commentEl.dataset.commentId = comment.id; // <-- key line
+
+  const avatar = document.createElement('div');
+  avatar.classList.add('avatar');
+
+  const body = document.createElement('div');
+  body.classList.add('comment-body');
+
+  const username = document.createElement('div');
+  username.classList.add('username');
+  username.textContent = comment.username;
+
+  const text = document.createElement('div');
+  text.classList.add('text');
+  text.textContent = comment.comment;
+
+  const actions = document.createElement('div');
+  actions.classList.add('comment-actions');
+  actions.innerHTML = `
+
+    <span class="reply-btn">Reply</span>
+    <span class="time">${comment.created_at}</span>
+  `;
+
+  const replyBox = document.createElement('div');
+  replyBox.classList.add('reply-box');
+  replyBox.style.display = 'none';
+  replyBox.innerHTML = `
+    <textarea rows="2" placeholder="Write a reply..."></textarea>
+    <button class="send-reply">Send</button>
+  `;
+
+  actions.querySelector('.reply-btn').addEventListener('click', () => {
+    replyBox.style.display = replyBox.style.display === 'none' ? 'block' : 'none';
+  });
+
+  replyBox.querySelector('.send-reply').addEventListener('click', () => {
+    const replyText = replyBox.querySelector('textarea').value.trim();
+    if (!replyText) return;
+
+    fetch('api/post_comment.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        file: currentFileName,
+        comment: replyText,
+        parent_id: comment.id
+      })
+    })
+    .then(res => res.json())
+    .then(response => {
+      if (response.success) fetchComments(currentFileName);
+    });
+  });
+
+  body.appendChild(username);
+  body.appendChild(text);
+  body.appendChild(actions);
+  body.appendChild(replyBox);
+
+  commentEl.appendChild(avatar);
+  commentEl.appendChild(body);
+
+  if (comment.replies && comment.replies.length > 0) {
+    const repliesContainer = document.createElement('div');
+    repliesContainer.classList.add('replies');
+
+    comment.replies.forEach(reply => {
+      const replyEl = renderComment(reply, true);
+      repliesContainer.appendChild(replyEl);
+    });
+
+    body.appendChild(repliesContainer);
+  }
+
+  return commentEl;
+}
+
+// 🆕 support optional highlightId: scroll & flash the exact reply
+function fetchComments(filename, highlightId = null) {
   fetch(`api/get_comments.php?file=${encodeURIComponent(filename)}`, { cache: 'no-store' })
     .then(res => res.json())
     .then(data => {
@@ -116,92 +206,19 @@ function fetchComments(filename) {
         return;
       }
 
-      function renderComment(comment, isReply = false) {
-        const commentEl = document.createElement('div');
-        commentEl.classList.add('comment');
-        if (isReply) commentEl.classList.add('reply');
-
-        const avatar = document.createElement('div');
-        avatar.classList.add('avatar');
-
-        const body = document.createElement('div');
-        body.classList.add('comment-body');
-
-        const username = document.createElement('div');
-        username.classList.add('username');
-        username.textContent = comment.username;
-
-        const text = document.createElement('div');
-        text.classList.add('text');
-        text.textContent = comment.comment;
-
-        const actions = document.createElement('div');
-        actions.classList.add('comment-actions');
-        actions.innerHTML = `
-          <span class="like-btn">Like</span>
-          <span class="reply-btn">Reply</span>
-          <span class="time">${comment.created_at}</span>
-        `;
-
-        const replyBox = document.createElement('div');
-        replyBox.classList.add('reply-box');
-        replyBox.style.display = 'none';
-        replyBox.innerHTML = `
-          <textarea rows="2" placeholder="Write a reply..."></textarea>
-          <button class="send-reply">Send</button>
-        `;
-
-        actions.querySelector('.reply-btn').addEventListener('click', () => {
-          replyBox.style.display = replyBox.style.display === 'none' ? 'block' : 'none';
-        });
-
-        replyBox.querySelector('.send-reply').addEventListener('click', () => {
-          const replyText = replyBox.querySelector('textarea').value.trim();
-          if (!replyText) return;
-
-          fetch('api/post_comment.php', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              file: currentFileName,
-              comment: replyText,
-              parent_id: comment.id
-            })
-          })
-          .then(res => res.json())
-          .then(response => {
-            if (response.success) fetchComments(currentFileName);
-          });
-        });
-
-        body.appendChild(username);
-        body.appendChild(text);
-        body.appendChild(actions);
-        body.appendChild(replyBox);
-
-        commentEl.appendChild(avatar);
-        commentEl.appendChild(body);
-
-        if (comment.replies && comment.replies.length > 0) {
-          const repliesContainer = document.createElement('div');
-          repliesContainer.classList.add('replies');
-
-          comment.replies.forEach(reply => {
-            const replyEl = renderComment(reply, true);
-            repliesContainer.appendChild(replyEl);
-          });
-
-          body.appendChild(repliesContainer);
-        }
-
-        return commentEl;
-      }
-
       data.forEach(comment => {
         const commentEl = renderComment(comment);
         commentDiv.appendChild(commentEl);
       });
 
+      if (highlightId) {
+        const target = commentDiv.querySelector(`[data-comment-id="${highlightId}"]`);
+        if (target) {
+          target.classList.add('highlight');
+          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setTimeout(() => target.classList.remove('highlight'), 2500);
+        }
+      }
     })
     .catch(err => console.error("Error fetching comments:", err));
 }
@@ -355,12 +372,13 @@ function loadMyNotifications() {
         const isRevoked = n.status === 'revoked';
         const isRead    = !!n.read_at;
 
-        // dot color/type (keep your existing logic for approved/rejected)
-        const type = isRevoked
-          ? 'rejected'
-          : /rejected/i.test((n.title||'') + (n.body||'')) ? 'rejected' : 'approved';
+        // dot color/type (supports comment type)
+        const type = n.type === 'comment'
+          ? 'comment'
+          : (isRevoked
+              ? 'rejected'
+              : /rejected/i.test((n.title||'') + (n.body||'')) ? 'rejected' : 'approved');
 
-        // per-item actions
         const actions = `
           <div class="notif-actions">
             <button class="mark-read" data-id="${n.id}" ${isRead ? 'disabled' : ''} title="${isRead ? 'Already read' : 'Mark as read'}">✓</button>
@@ -381,6 +399,15 @@ function loadMyNotifications() {
           </div>
           ${actions}
         `;
+
+        // 🆕 Make comment-type notifs clickable and stash ref + file
+        if (n.type === 'comment') {
+          el.classList.add('clickable');
+          if (n.ref_id) el.dataset.refId = n.ref_id;
+          const f = extractFilenameFromBody(n.body);
+          if (f) el.dataset.file = f;
+        }
+
         list.appendChild(el);
       });
 
@@ -400,14 +427,47 @@ function loadMyNotifications() {
 
 // ===== On page load =====
 window.addEventListener('DOMContentLoaded', listUploadedFiles);
-// Per-item actions: mark read / delete
-document.getElementById('notifList')?.addEventListener('click', (e) => {
+
+// Per-item actions + comment-notif click to open modal & jump to reply
+document.getElementById('notifList')?.addEventListener('click', async (e) => {
+  // 🆕 open modal & jump to reply when clicking a reply notification row (but not the small action buttons)
+  const row = e.target.closest('.notif-item.clickable');
+  const clickedAction = e.target.closest('.mark-read, .delete-notif');
+  if (row && !clickedAction) {
+    const refId = +row.dataset.refId;
+    const file  = row.dataset.file;
+    if (refId && file) {
+      // Optimistically mark as read (optional)
+      const idFromButtons = row.querySelector('.mark-read')?.dataset.id;
+      if (idFromButtons) {
+        try {
+          await fetch('/tracker/Itrack/api/mark_notification_read.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({ id: idFromButtons })
+          });
+        } catch {}
+      }
+
+      // Open the modal and highlight the exact reply
+      currentFileName = file;
+      openModal({ capstone_title: file, filename: file, uploaded_by: '', date_uploaded: '', url: '#' });
+      fetchComments(file, refId);
+
+      // Refresh badge shortly
+      setTimeout(loadMyNotifications, 400);
+    }
+    return;
+  }
+
+  // ===== existing per-item actions: mark read / delete =====
   const readBtn = e.target.closest('.mark-read');
   const delBtn  = e.target.closest('.delete-notif');
 
   if (readBtn) {
     const id = +readBtn.dataset.id; if (!id) return;
-    fetch('/tracker/Itrack/api/mark_notifications_read.php', {
+    // ✅ single-item endpoint
+    fetch('/tracker/Itrack/api/mark_notification_read.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams({ id })
@@ -437,4 +497,3 @@ document.getElementById('notifList')?.addEventListener('click', (e) => {
       .catch(() => alert('Network error.'));
   }
 });
-// Bulk actions: mark all read / delete read / delete all

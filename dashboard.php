@@ -187,7 +187,6 @@ $role = $_SESSION['role'];
   window.closeUploadModal = closeUploadModal; // used by modal close button
 </script>
 
-
  <script type="module" src="src/display.js"></script>
 </body>
 </html>
