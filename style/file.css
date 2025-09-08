@@ -89,7 +89,7 @@
 .btn-green {
   margin: 20px;
   padding: 10px 20px;
-  background: #28a745;
+  background: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
@@ -101,7 +101,11 @@
 }
 
 .btn-green:hover {
-  background: #218838; /* darker green on hover */
+  background: #0056b3; /* darker green on hover */
    transform: translateY(-2px);    /* Subtle lift */
 }
 
+.btn-green:active {
+  background-color: #004494;      /* Even darker when clicked */
+  transform: translateY(0);       /* Reset lift */
+}

@@ -129,9 +129,9 @@
     display: flex;
     align-items: center;
     gap: 10px;}
-.notif-btn{position:relative;background:#fff;
+.notif-btn{position:relative;background:#333;
     border:1px solid #e5e7eb;
-    border-radius:10px;
+    border-radius:200px;
     padding:6px 10px;
     cursor:pointer}
 .notif-badge{position:absolute;

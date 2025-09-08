@@ -27,8 +27,7 @@ $role = $_SESSION['role'];
           <div class="navbar">
             <div class="trimexlogo">
               <a href="#">
-                <img src="logo/Trimex.jpg" alt="Trimex Logo" style="height: 40px; vertical-align: middle;">
-                TRIMEX CAPSTONE TRACKER
+                 CAPSTONE TRACKER
               </a>
             </div>
   <!-- Notification Bell -->
