@@ -1,6 +1,7 @@
+/* style for list items */
 .file-item {
-  width: 90%;
-  max-width: 500px;
+  width: 100%;
+  max-width: 400px;
   padding: 20px;
   margin: 15px ;
   border: 1px solid #ccc;
@@ -21,6 +22,13 @@
   background-color: #e0e0e0;
 }
 
+.file-item a:hover {
+  color: #005fa3;
+}
+
+
+
+/* Admin Approval Modal */
 .modal {
   display: none;
   position: fixed;
@@ -77,3 +85,23 @@
   background-color: #004494;      /* Even darker when clicked */
   transform: translateY(0);       /* Reset lift */
 }
+/* contributor Modal */
+.btn-green {
+  margin: 20px;
+  padding: 10px 20px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin: 10px 0;
+}
+
+.btn-green:hover {
+  background: #218838; /* darker green on hover */
+   transform: translateY(-2px);    /* Subtle lift */
+}
+

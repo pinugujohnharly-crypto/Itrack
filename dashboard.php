@@ -31,9 +31,31 @@ $role = $_SESSION['role'];
                 TRIMEX CAPSTONE TRACKER
               </a>
             </div>
+  <!-- Notification Bell -->
+    <div class="notif-wrap"> 
+      <a>Welcome, <?= $_SESSION['username']; ?> (<?= $role ?>)</a>
+  <button id="notifBtn" class="notif-btn" aria-haspopup="true" aria-expanded="false">
+    🔔
+    <span id="notifBadge" class="notif-badge" hidden>0</span>
+  </button>
+
+  <div id="notifDropdown" class="notif-dropdown" role="menu" aria-hidden="true">
+    <div class="notif-head">
+      <strong>Notifications</strong>
+      <button id="notifRefresh" class="notif-refresh" title="Refresh">↻</button>
+    </div>
+    <div id="notifList" class="notif-list">
+      <!-- items injected here -->
+    </div>
+    <div class="notif-foot">
+      <button id="notifClose" class="notif-close">Close</button>
+    </div>
+  </div>
+      </div>
 
                 <!-- Profile Dropdown -->
                 <div class="profile-dropdown">
+                   
                   <button class="profile-btn">Profile ▼</button>
                   <div class="dropdown-menu">
                     <a href="profile.php">My Profile</a>
@@ -43,10 +65,45 @@ $role = $_SESSION['role'];
                 </div>
               </div>
 
-                <?php if ($_SESSION['role'] === 'admin'): ?>
-                    <button id="openApprovalModal" class="admin-btn">🛠 Pending Approvals</button>
+<?php if (strtolower($_SESSION['role']) === 'admin'): ?>
+
+                  <!-- contri Modal -->
+              <button id="openContributorModal" class="btn-green">
+                    ➕ Create Contributor
+                    </button>
               <?php endif; ?>
 
+<!-- Contributor Modal -->
+<div id="contributorModal" class="Cmodal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#00000080; justify-content:center; align-items:center;">
+  <div style="background:white; padding:20px; width:400px; position:relative; border-radius:10px;">
+    <button id="closeContributorModal" style="position:absolute; top:5px; right:10px; font-size:18px;">&times;</button>
+    <h3>Create Contributor Account</h3>
+    
+    <form id="contributorForm">
+      <label>First Name:</label>
+      <input type="text" name="first_name" required style="width:100%; padding:10px; margin-bottom:10px;" />
+
+      <label>Last Name:</label>
+      <input type="text" name="last_name" required style="width:100%; padding:10px; margin-bottom:10px;" />
+
+      <label>Username:</label>
+      <input type="text" name="username" required style="width:100%; padding:10px; margin-bottom:10px;" />
+
+      <label>Password:</label>
+      <input type="password" name="password" required style="width:100%; padding:10px; margin-bottom:10px;" />
+
+      <button type="submit" style="padding:10px 20px; background:#28a745; color:white; border:none; border-radius:5px;">Create</button>
+    </form>
+
+    <div id="contributorStatus" style="margin-top:10px; font-weight:bold;"></div>
+  </div>
+</div>
+<!-- Link the external JS -->
+<script src="src/contributor.js"></script>
+<?php if (strtolower($_SESSION['role']) === 'admin' || strtolower($_SESSION['role']) === 'contributor'): ?>
+                  <!-- Admin Approval Modal -->
+                    <button id="openApprovalModal" class="admin-btn">🛠 Pending Approvals</button>
+      <?php endif; ?>
                   <!-- Admin Approval Modal -->
                   <div id="approvalModal" class="modal" style="display: none;">
                     <div class="modal-content">
@@ -59,7 +116,7 @@ $role = $_SESSION['role'];
 
 
                 <script src="bundle.js"></script>
-                <h2>Welcome, <?= $_SESSION['username']; ?> (<?= $role ?>)</h2>
+
                 
                   <h2>Uploaded Files</h2>
                   <ul id="fileList"></ul>
@@ -107,32 +164,28 @@ $role = $_SESSION['role'];
   <div style="background:white; padding:20px; width:500px; position:relative; border-radius:10px;">
     <button onclick="closeUploadModal()" style="position:absolute; top:5px; right:10px; font-size:18px;">&times;</button>
     <h3>Upload Capstone File</h3>
-    
     <form id="uploadForm">
       <label>Uploader:</label>
       <input type="text" name="uploader" value="<?= $_SESSION['username']; ?>" readonly style="width:100%; padding:10px; margin-bottom:10px;" />
-
       <label>Capstone Title:</label>
       <input type="text" name="title" placeholder="Enter capstone title" required style="width:100%; padding:10px; margin-bottom:10px;" />
-
       <label>Select PDF:</label>
       <input type="file" name="pdf" accept=".pdf" required style="width:100%; padding:10px; margin-bottom:10px;" />
-
       <button type="submit" style="padding:10px 20px; background:#007bff; color:white; border:none; border-radius:5px;">Upload</button>
     </form>
-
     <div id="uploadStatus" style="margin-top: 10px; font-weight: bold;"></div>
+
   </div>
+
 </div>
+
 <script src="src/dropdown.js"></script>
 <script type="module">
   import { openUploadModal, closeUploadModal } from './src/modal-control.js';
-
   // Attach the functions to buttons
   document.getElementById('openUploadBtn')?.addEventListener('click', openUploadModal);
   window.closeUploadModal = closeUploadModal; // used by modal close button
 </script>
-
 
  <script type="module" src="src/display.js"></script>
 </body>
