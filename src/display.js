@@ -345,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function loadMyNotifications() {
   // Use absolute path so it works regardless of page depth
-  fetch('/tracker/Itrack/api/list_my_notifications.php', { cache: 'no-store' })
+  fetch('/itrack/api/list_my_notifications.php', { cache: 'no-store' })
     .then(async r => {
       const text = await r.text();
       if (!r.ok) { console.error('HTTP error (notif):', r.status, text); throw new Error('HTTP '+r.status); }
@@ -441,7 +441,7 @@ document.getElementById('notifList')?.addEventListener('click', async (e) => {
       const idFromButtons = row.querySelector('.mark-read')?.dataset.id;
       if (idFromButtons) {
         try {
-          await fetch('/tracker/Itrack/api/mark_notification_read.php', {
+          await fetch('/itrack/api/mark_notifications_read.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: new URLSearchParams({ id: idFromButtons })
