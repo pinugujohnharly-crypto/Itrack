@@ -17,6 +17,9 @@ if (!getApps().length) app = initializeApp(firebaseConfig);
 else app = getApps()[0];
 const storage = getStorage(app);
 
+// ===== API base (match your folder path exactly) =====
+const API_BASE = '/itrack';
+
 // ===== Utils =====
 function escapeHtml(s) {
   return String(s ?? '')
@@ -33,7 +36,7 @@ function timeAgo(ts) {
   const days = Math.floor(h/24); return days === 1 ? '1 day ago' : `${days} days ago`;
 }
 
-// 🆕 helper: try to pull "file: <filename>" from notif body
+// Try to pull "file: <filename>" from notif body
 function extractFilenameFromBody(body) {
   const m = String(body || '').match(/file:\s*(.+)$/i);
   return m ? m[1].trim() : '';
@@ -48,7 +51,7 @@ async function listUploadedFiles() {
   list.innerHTML = 'Loading...';
 
   try {
-    const res = await fetch('api/get_files.php', { cache: 'no-store' });
+    const res = await fetch(`${API_BASE}/api/get_files.php`, { cache: 'no-store', credentials: 'include' });
     const files = await res.json();
     list.innerHTML = '';
 
@@ -94,28 +97,34 @@ document.getElementById('postCommentBtn')?.addEventListener('click', () => {
   const comment = document.getElementById('newComment').value.trim();
   if (!comment || !currentFileName) return;
 
-  fetch('api/post_comment.php', {
+  fetch(`${API_BASE}/api/post_comment.php`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
     body: JSON.stringify({ file: currentFileName, comment })
   })
   .then(res => res.json())
   .then(response => {
     if (response.success) {
       document.getElementById('newComment').value = '';
-      fetchComments(currentFileName);
+      fetchComments(currentFileName, response.comment_id); // use PHP's key
     } else {
       console.error("❌ Error posting comment:", response.error);
+      alert(response.error || 'Failed to post comment.');
     }
+  })
+  .catch(err => {
+    console.error('❌ Network error posting comment:', err);
+    alert('Network error.');
   });
 });
 
-// 🆕 tag each comment element so we can scroll/highlight a specific reply later
-function renderComment(comment, isReply = false) {
+// ===== Comment renderer (one-level replies + "Replying to @Name") =====
+function renderComment(comment, isReply = false, parentUser = null) {
   const commentEl = document.createElement('div');
   commentEl.classList.add('comment');
   if (isReply) commentEl.classList.add('reply');
-  commentEl.dataset.commentId = comment.id; // <-- key line
+  commentEl.dataset.commentId = comment.id;
 
   const avatar = document.createElement('div');
   avatar.classList.add('avatar');
@@ -127,63 +136,94 @@ function renderComment(comment, isReply = false) {
   username.classList.add('username');
   username.textContent = comment.username;
 
+  // “Replying to @Name” line for replies
+  if (isReply && parentUser) {
+    const replyingTo = document.createElement('div');
+    replyingTo.classList.add('in-reply-to');
+    replyingTo.textContent = `Replying to @${parentUser}`;
+    body.appendChild(replyingTo);
+  }
+
   const text = document.createElement('div');
   text.classList.add('text');
   text.textContent = comment.comment;
 
   const actions = document.createElement('div');
   actions.classList.add('comment-actions');
-  actions.innerHTML = `
 
-    <span class="reply-btn">Reply</span>
-    <span class="time">${comment.created_at}</span>
-  `;
+  // Only allow reply on top-level comments
+  if (!isReply) {
+    const replyBtn = document.createElement('span');
+    replyBtn.className = 'reply-btn';
+    replyBtn.textContent = 'Reply';
+    actions.appendChild(replyBtn);
 
-  const replyBox = document.createElement('div');
-  replyBox.classList.add('reply-box');
-  replyBox.style.display = 'none';
-  replyBox.innerHTML = `
-    <textarea rows="2" placeholder="Write a reply..."></textarea>
-    <button class="send-reply">Send</button>
-  `;
+    const replyBox = document.createElement('div');
+    replyBox.classList.add('reply-box');
+    replyBox.style.display = 'none';
+    replyBox.innerHTML = `
+      <textarea rows="2" placeholder="Write a reply..."></textarea>
+      <button class="send-reply">Send</button>
+    `;
 
-  actions.querySelector('.reply-btn').addEventListener('click', () => {
-    replyBox.style.display = replyBox.style.display === 'none' ? 'block' : 'none';
-  });
-
-  replyBox.querySelector('.send-reply').addEventListener('click', () => {
-    const replyText = replyBox.querySelector('textarea').value.trim();
-    if (!replyText) return;
-
-    fetch('api/post_comment.php', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        file: currentFileName,
-        comment: replyText,
-        parent_id: comment.id
-      })
-    })
-    .then(res => res.json())
-    .then(response => {
-      if (response.success) fetchComments(currentFileName);
+    replyBtn.addEventListener('click', () => {
+      const ta = replyBox.querySelector('textarea');
+      if (!ta.value.trim()) ta.value = `@${comment.username} `;
+      replyBox.style.display = replyBox.style.display === 'none' ? 'block' : 'none';
+      ta.focus();
     });
-  });
+
+    replyBox.querySelector('.send-reply').addEventListener('click', () => {
+      const replyText = replyBox.querySelector('textarea').value.trim();
+      if (!replyText) return;
+
+      fetch(`${API_BASE}/api/post_comment.php`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          file: currentFileName,
+          comment: replyText,
+          parent_id: comment.id
+        })
+      })
+      .then(res => res.json())
+      .then(response => {
+        if (response.success) {
+          fetchComments(currentFileName, response.comment_id);
+        } else {
+          console.error("❌ Error posting reply:", response.error);
+          alert(response.error || 'Failed to post reply.');
+        }
+      })
+      .catch(err => {
+        console.error('❌ Network error posting reply:', err);
+        alert('Network error.');
+      });
+    });
+
+    body.appendChild(replyBox);
+  }
+
+  const time = document.createElement('span');
+  time.className = 'time';
+  time.textContent = comment.created_at;
+  actions.appendChild(time);
 
   body.appendChild(username);
   body.appendChild(text);
   body.appendChild(actions);
-  body.appendChild(replyBox);
 
   commentEl.appendChild(avatar);
   commentEl.appendChild(body);
 
-  if (comment.replies && comment.replies.length > 0) {
+  // ONE-LEVEL ONLY: render direct children; no replies of replies
+  if (!isReply && Array.isArray(comment.replies) && comment.replies.length > 0) {
     const repliesContainer = document.createElement('div');
     repliesContainer.classList.add('replies');
 
     comment.replies.forEach(reply => {
-      const replyEl = renderComment(reply, true);
+      const replyEl = renderComment(reply, true, comment.username);
       repliesContainer.appendChild(replyEl);
     });
 
@@ -193,9 +233,9 @@ function renderComment(comment, isReply = false) {
   return commentEl;
 }
 
-// 🆕 support optional highlightId: scroll & flash the exact reply
+// ===== Fetch & optionally highlight one comment =====
 function fetchComments(filename, highlightId = null) {
-  fetch(`api/get_comments.php?file=${encodeURIComponent(filename)}`, { cache: 'no-store' })
+  fetch(`${API_BASE}/api/get_comments.php?file=${encodeURIComponent(filename)}`, { cache: 'no-store', credentials: 'include' })
     .then(res => res.json())
     .then(data => {
       const commentDiv = document.getElementById('modalComments');
@@ -211,12 +251,14 @@ function fetchComments(filename, highlightId = null) {
         commentDiv.appendChild(commentEl);
       });
 
+      // Highlight target reply (from notif or after posting)
       if (highlightId) {
         const target = commentDiv.querySelector(`[data-comment-id="${highlightId}"]`);
         if (target) {
-          target.classList.add('highlight');
           target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          setTimeout(() => target.classList.remove('highlight'), 2500);
+          const bubble = target.querySelector('.comment-body') || target;
+          bubble.classList.add('flash-highlight');
+          setTimeout(() => bubble.classList.remove('flash-highlight'), 2500);
         }
       }
     })
@@ -234,15 +276,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Make accessible in HTML
 window.closeApprovalModal = function () {
   document.getElementById('approvalModal').style.display = 'none';
 };
 
 window.approveFile = function (id) {
-  fetch('api/approve_file.php', {
+  fetch(`${API_BASE}/api/approve_file.php`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    credentials: 'include',
     body: new URLSearchParams({ file_id: id })
   })
   .then(async r => {
@@ -264,9 +306,10 @@ window.rejectFile = function (id) {
   const reason = prompt('Reason for rejection (shown to uploader):');
   if (reason === null) return;
 
-  fetch('api/reject_file.php', {
+  fetch(`${API_BASE}/api/reject_file.php`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    credentials: 'include',
     body: new URLSearchParams({ file_id: id, reason })
   })
   .then(async r => {
@@ -285,7 +328,7 @@ window.rejectFile = function (id) {
 };
 
 function loadPendingFiles() {
-  fetch('api/get_pending_files.php', { cache: 'no-store' })
+  fetch(`${API_BASE}/api/get_pending_files.php`, { cache: 'no-store', credentials: 'include' })
     .then(res => res.json())
     .then(files => {
       const listDiv = document.getElementById('pendingFilesList');
@@ -311,7 +354,7 @@ function loadPendingFiles() {
     });
 }
 
-// ===== Notification bell (absolute path avoids 404 from nested pages) =====
+// ===== Notification bell =====
 document.addEventListener('DOMContentLoaded', () => {
   const btn = document.getElementById('notifBtn');
   const dd  = document.getElementById('notifDropdown');
@@ -344,8 +387,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function loadMyNotifications() {
-  // Use absolute path so it works regardless of page depth
-  fetch('/itrack/api/list_my_notifications.php', { cache: 'no-store' })
+  fetch(`${API_BASE}/api/list_my_notifications.php`, { cache: 'no-store', credentials: 'include' })
     .then(async r => {
       const text = await r.text();
       if (!r.ok) { console.error('HTTP error (notif):', r.status, text); throw new Error('HTTP '+r.status); }
@@ -400,7 +442,7 @@ function loadMyNotifications() {
           ${actions}
         `;
 
-        // 🆕 Make comment-type notifs clickable and stash ref + file
+        // Make comment-type notifs clickable and stash ref + file
         if (n.type === 'comment') {
           el.classList.add('clickable');
           if (n.ref_id) el.dataset.refId = n.ref_id;
@@ -411,7 +453,7 @@ function loadMyNotifications() {
         list.appendChild(el);
       });
 
-      // 🔔 badge shows UNREAD count (not last-24h)
+      // Badge shows UNREAD count
       const unread = items.filter(n => !n.read_at && n.status === 'sent').length;
       if (badge) {
         if (unread > 0) { badge.textContent = String(unread); badge.removeAttribute('hidden'); }
@@ -430,70 +472,69 @@ window.addEventListener('DOMContentLoaded', listUploadedFiles);
 
 // Per-item actions + comment-notif click to open modal & jump to reply
 document.getElementById('notifList')?.addEventListener('click', async (e) => {
-  // 🆕 open modal & jump to reply when clicking a reply notification row (but not the small action buttons)
+  // Open modal & jump to reply when clicking a comment notification row
   const row = e.target.closest('.notif-item.clickable');
   const clickedAction = e.target.closest('.mark-read, .delete-notif');
   if (row && !clickedAction) {
     const refId = +row.dataset.refId;
     const file  = row.dataset.file;
     if (refId && file) {
-      // Optimistically mark as read (optional)
+      // Mark as read (optional)
       const idFromButtons = row.querySelector('.mark-read')?.dataset.id;
       if (idFromButtons) {
         try {
-          await fetch('/itrack/api/mark_notifications_read.php', {
+          await fetch(`${API_BASE}/api/mark_notifications_read.php`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            credentials: 'include',
             body: new URLSearchParams({ id: idFromButtons })
           });
         } catch {}
       }
 
-      // Open the modal and highlight the exact reply
       currentFileName = file;
       openModal({ capstone_title: file, filename: file, uploaded_by: '', date_uploaded: '', url: '#' });
       fetchComments(file, refId);
-
-      // Refresh badge shortly
       setTimeout(loadMyNotifications, 400);
     }
     return;
   }
 
-  // ===== existing per-item actions: mark read / delete =====
-  const readBtn = e.target.closest('.mark-read');
-  const delBtn  = e.target.closest('.delete-notif');
-
+  // Mark single notification read
+    const readBtn = e.target.closest('.mark-read');
   if (readBtn) {
     const id = +readBtn.dataset.id; if (!id) return;
-    // ✅ single-item endpoint
-    fetch('/tracker/Itrack/api/mark_notification_read.php', {
+    fetch(`${API_BASE}/api/mark_notification_read.php`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      credentials: 'include',
       body: new URLSearchParams({ id })
     })
-      .then(r => r.json())
-      .then(res => {
-        if (!res.ok) return alert(res.error || 'Failed to mark read');
-        loadMyNotifications();
-      })
-      .catch(() => alert('Network error.'));
+    .then(r => r.json())
+    .then(res => {
+      if (!res.ok) return alert(res.error || 'Failed to mark read');
+      loadMyNotifications();
+    })
+    .catch(() => alert('Network error.'));
     return;
   }
 
+  // Delete notification
+  const delBtn  = e.target.closest('.delete-notif');
   if (delBtn) {
     const id = +delBtn.dataset.id; if (!id) return;
     if (!confirm('Delete this notification?')) return;
-    fetch('/tracker/Itrack/api/delete_notification.php', {
+    fetch(`${API_BASE}/api/delete_notification.php`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      credentials: 'include',
       body: new URLSearchParams({ id })
     })
-      .then(r => r.json())
-      .then(res => {
-        if (!res.ok) return alert(res.error || 'Failed to delete');
-        loadMyNotifications();
-      })
-      .catch(() => alert('Network error.'));
+    .then(r => r.json())
+    .then(res => {
+      if (!res.ok) return alert(res.error || 'Failed to delete');
+      loadMyNotifications();
+    })
+    .catch(() => alert('Network error.'));
   }
 });

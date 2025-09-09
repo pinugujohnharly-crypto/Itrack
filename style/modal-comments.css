@@ -112,10 +112,10 @@
    COMMENT ITEM
 ========================================= */
 #modalComments .comment {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin: 0 0 14px;
+  display:flex;
+   gap:10px; 
+   padding:10px 12px; 
+   border-bottom:1px solid #eef1f4;
 }
 
 #modalComments .comment.reply {
@@ -139,21 +139,21 @@
   box-shadow: var(--shadow);
   max-width: 100%;          /* prevent overflow */
   word-wrap: break-word;    /* wrap long words */
-  overflow-wrap: anywhere;
+ flex:1;
 }
 
 /* Username + text */
 #modalComments .username {
-  font-weight: 700;
+  font-weight: 600;
   font-size: 14px;
-  margin-bottom: 3px;
+  margin-bottom: 2px;
   color: var(--c-text);
 }
 
 #modalComments .text {
-  font-size: 14px;
-  color: var(--c-text);
-  line-height: 1.45;
+  margin: 2px 0 6px;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 /* Actions */
@@ -161,8 +161,10 @@
   font-size: 12px;
   color: var(--c-muted);
   margin-top: 6px;
+  color:#6b7280;
   display: flex;
   gap: 12px;
+  align-items:center;
 }
 
 #modalComments .comment-actions span {
@@ -173,19 +175,68 @@
   text-decoration: underline;
 }
 
-/* Reply box inside a comment */
+/* =========================================
+   REPLY BOX (inside each comment)
+========================================= */
 #modalComments .reply-box {
   margin-top: 8px;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 8px;
 }
 
+#modalComments .reply-box textarea {
+  width: 100%;
+  min-height: 36px;
+  resize: vertical;
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+  padding: 8px 10px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  background: var(--c-surface);
+  color: var(--c-text);
+  box-sizing: border-box;
+}
+
+#modalComments .reply-box textarea:focus {
+  border-color: var(--c-primary);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--c-primary) 25%, transparent);
+}
+
+#modalComments .reply-box button.send-reply {
+  align-self: flex-end;
+  background: var(--c-primary);
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+#modalComments .reply-box button.send-reply:hover {
+  background: var(--c-primary-hover);
+}
+
 /* Highlight when jumping to a reply */
-.comment.highlight .comment-body {
-  background: var(--c-highlight);
-  box-shadow: 0 0 0 2px rgba(255,223,99,.6) inset;
+/* Always-win highlight on the bubble itself */
+#modalComments .comment-body.flash-highlight {
+  background: var(--c-highlight) !important;
+  box-shadow: 0 0 0 2px rgba(255,223,99,.6) inset, var(--shadow);
   transition: background 1.2s ease;
 }
+
+/* Fallback if class lands on the wrapper */
+#modalComments .comment.flash-highlight .comment-body {
+  background: var(--c-highlight) !important;
+  box-shadow: 0 0 0 2px rgba(255,223,99,.6) inset, var(--shadow);
+  transition: background 1.2s ease;
+}
+
 
 /* =========================================
    INPUT AREA (sticky at bottom)
@@ -229,6 +280,19 @@
 
 .comment-input-area button:hover {
   background: var(--c-primary-hover);
+}
+
+.comment .replies {
+  margin-top: 8px;
+  margin-left: 42px;
+  border-left: 2px solid #eef1f4;
+  padding-left: 10px;
+}
+
+.comment.reply .in-reply-to {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 3px;
 }
 
 /* =========================================
