@@ -55,24 +55,35 @@ async function listUploadedFiles() {
     const files = await res.json();
     list.innerHTML = '';
 
-    files.forEach(file => {
-      const li = document.createElement('li');
-      li.classList.add('file-item');
+          files.forEach(file => {
+              const li = document.createElement('li');
+              li.classList.add('file-item');
 
-      const link = document.createElement('a');
-      link.href = "#";
-      link.textContent = file.capstone_title || file.filename;
+              // clickable title (with year)
+              const link = document.createElement('a');
+              link.href = "#";
+              const title = file.capstone_title || file.filename;
+              const year = file.year_published ? ` (${file.year_published})` : '';
+              link.textContent = title + year;
+              
 
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        currentFileName = file.filename;
-        openModal(file);
-        fetchComments(currentFileName);
-      });
+              link.addEventListener('click', (e) => {
+                e.preventDefault();
+                currentFileName = file.filename;
+                openModal(file);
+                fetchComments(currentFileName);
+              });
 
-      li.appendChild(link);
-      list.appendChild(li);
-    });
+              // authors line
+              const meta = document.createElement('div');
+              meta.classList.add('file-meta');
+              meta.textContent = file.authors ? `Authors: ${file.authors}` : '';
+
+              li.appendChild(link);
+              li.appendChild(meta);
+              list.appendChild(li);
+        });
+
 
   } catch (err) {
     console.error("❌ Failed to fetch file metadata:", err);
@@ -83,12 +94,15 @@ async function listUploadedFiles() {
 // ===== File modal + comments =====
 function openModal(file) {
   document.getElementById('modalTitle').textContent = file.capstone_title || file.filename;
-  document.getElementById('modalUploader').textContent = file.uploaded_by ?? '';
-  document.getElementById('modalDate').textContent = file.date_uploaded ?? '';
+  document.getElementById('modalUploader').textContent =  (file.uploaded_by ?? '');
+  document.getElementById('modalDate').textContent = (file.date_uploaded ?? '');
+  document.getElementById('modalYear').textContent = (file.year_published ?? '');
+  document.getElementById('modalAuthors').textContent =  (file.authors ?? '');
   document.getElementById('viewFileBtn').href = file.url ?? '#';
   document.getElementById('fileModal').style.display = 'flex';
   document.getElementById('newComment').value = '';
 }
+
 window.closeModal = function () {
   document.getElementById('fileModal').style.display = 'none';
 };

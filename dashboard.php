@@ -104,7 +104,7 @@ $role = $_SESSION['role'];
                     <button id="openApprovalModal" class="admin-btn">🛠 Pending Approvals</button>
       <?php endif; ?>
                   <!-- Admin Approval Modal -->
-                  <div id="approvalModal" class="modal" style="display: none;">
+                  <div id="approvalModal" class="amodal" style="display: none;">
                     <div class="modal-content">
                       <button onclick="closeApprovalModal()" class="close-btn">&times;</button>
                       <h3>Pending File Approvals</h3>
@@ -136,6 +136,8 @@ $role = $_SESSION['role'];
     
     <h3 id="modalTitle">Filename</h3>
     <p><strong>Uploaded by:</strong> <span id="modalUploader"></span></p>
+    <p><strong>Year Publish:</strong> <span id="modalYear"></span></p>
+    <p><strong>Authors:</strong> <span id="modalAuthors"></span></p>
     <p><strong>Date:</strong> <span id="modalDate"></span></p>
     
     <a id="viewFileBtn" href="#" target="_blank" class="view-file-link">🔍 View PDF</a>
@@ -159,24 +161,32 @@ $role = $_SESSION['role'];
 
 
 <!-- Upload Modal -->
-<div id="uploadModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#00000080; justify-content:center; align-items:center;">
-  <div style="background:white; padding:20px; width:500px; position:relative; border-radius:10px;">
-    <button onclick="closeUploadModal()" style="position:absolute; top:5px; right:10px; font-size:18px;">&times;</button>
+<div id="uploadModal" class="modal">
+  <div class="umodal-content">
+    <button onclick="closeUploadModal()" class="close-btn">&times;</button>
     <h3>Upload Capstone File</h3>
     <form id="uploadForm">
       <label>Uploader:</label>
-      <input type="text" name="uploader" value="<?= $_SESSION['username']; ?>" readonly style="width:100%; padding:10px; margin-bottom:10px;" />
+      <input type="text" name="uploader" value="<?= $_SESSION['username']; ?>" readonly />
+
       <label>Capstone Title:</label>
-      <input type="text" name="title" placeholder="Enter capstone title" required style="width:100%; padding:10px; margin-bottom:10px;" />
+      <input type="text" name="title" placeholder="Enter capstone title" required />
+
+      <label>Year Published:</label>
+      <input type="text" name="year" placeholder="Enter year published" required />
+
+      <label>Authors:</label>
+      <input type="text" name="authors" placeholder="Enter authors" required />
+
       <label>Select PDF:</label>
-      <input type="file" name="pdf" accept=".pdf" required style="width:100%; padding:10px; margin-bottom:10px;" />
-      <button type="submit" style="padding:10px 20px; background:#007bff; color:white; border:none; border-radius:5px;">Upload</button>
+      <input type="file" name="pdf" accept=".pdf" required />
+
+      <button type="submit" class="upload-btn">Upload</button>
     </form>
-    <div id="uploadStatus" style="margin-top: 10px; font-weight: bold;"></div>
-
+    <div id="uploadStatus"></div>
   </div>
-
 </div>
+
 
 <script src="src/dropdown.js"></script>
 <script type="module">

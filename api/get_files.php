@@ -3,7 +3,7 @@ include '../database.php';
 
 header('Content-Type: application/json');
 
-$sql = "SELECT id, filename, url, uploaded_by, capstone_title, uploaded_at, approved ,date_uploaded
+$sql = "SELECT id, filename, url, uploaded_by, capstone_title, uploaded_at, approved ,date_uploaded, year_published, authors
         FROM uploaded_files 
         WHERE approved = 1 
         ORDER BY uploaded_at DESC";

@@ -23,9 +23,11 @@ document.getElementById('uploadForm').addEventListener('submit', async (e) => {
 
   const uploader = e.target.uploader.value.trim();
   const title = e.target.title.value.trim();
+  const year = e.target.year.value.trim();
+  const authors = e.target.authors.value.trim();
   const file = e.target.pdf.files[0];
 
-  if (!uploader || !title || !file) {
+  if (!uploader || !title || !year || !authors || !file) {
     alert("Please fill out all fields.");
     return;
   }
@@ -49,7 +51,9 @@ document.getElementById('uploadForm').addEventListener('submit', async (e) => {
         filename: file.name,
         url: url,
         uploaded_by: uploader,
-        capstone_title: title
+        capstone_title: title,
+        year_published: year,
+        authors: authors
       })
     });
 
