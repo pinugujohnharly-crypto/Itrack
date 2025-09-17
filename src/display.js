@@ -41,9 +41,8 @@ function extractFilenameFromBody(body) {
   const m = String(body || '').match(/file:\s*(.+)$/i);
   return m ? m[1].trim() : '';
 }
-
+let currentFileUrl = null;
 let currentFileName = null;
-
 // ===== Approved files list =====
 async function listUploadedFiles() {
   const list = document.getElementById('fileList');
@@ -69,6 +68,7 @@ async function listUploadedFiles() {
 
               link.addEventListener('click', (e) => {
                 e.preventDefault();
+                 console.log("📂 File object:", file); // 👈 add this
                 currentFileName = file.filename;
                 openModal(file);
                 fetchComments(currentFileName);
@@ -92,13 +92,20 @@ async function listUploadedFiles() {
 }
 
 // ===== File modal + comments =====
+
 function openModal(file) {
+   console.log("🔗 File URL:", file.url); // 👈 check if it has the Firebase link
+
   document.getElementById('modalTitle').textContent = file.capstone_title || file.filename;
   document.getElementById('modalUploader').textContent =  (file.uploaded_by ?? '');
   document.getElementById('modalDate').textContent = (file.date_uploaded ?? '');
   document.getElementById('modalYear').textContent = (file.year_published ?? '');
-  document.getElementById('modalAuthors').textContent =  (file.authors ?? '');
-  document.getElementById('viewFileBtn').href = file.url ?? '#';
+  document.getElementById('modalAuthors').textContent = (file.authors ?? '');
+
+  // stash PDF url for 2nd modal
+  currentFileUrl = file.url ?? null;
+   console.log("🔗 URL for preview:", currentFileUrl); // 👈 DEBUG
+
   document.getElementById('fileModal').style.display = 'flex';
   document.getElementById('newComment').value = '';
 }
@@ -106,6 +113,27 @@ function openModal(file) {
 window.closeModal = function () {
   document.getElementById('fileModal').style.display = 'none';
 };
+
+// ===== PDF modal handling =====
+window.openPdfModal = function () {
+  const pdfContainer = document.getElementById('pdfViewer');
+
+  if (currentFileUrl) {
+    console.log("📄 Opening PDF:", currentFileUrl);
+    pdfContainer.innerHTML = `<iframe src="${currentFileUrl}" style="width:100%;height:100%;border:none;"></iframe>`;
+  } else {
+    console.warn("⚠️ No URL found for PDF preview");
+    pdfContainer.innerHTML = `<p>No PDF available (URL missing)</p>`;
+  }
+
+  document.getElementById('pdfModal').classList.add('active');
+};
+
+window.closePdfModal = function () {
+  document.getElementById('pdfModal').classList.remove('active');
+};
+
+// ===== Comments (same as before) =====
 
 document.getElementById('postCommentBtn')?.addEventListener('click', () => {
   const comment = document.getElementById('newComment').value.trim();

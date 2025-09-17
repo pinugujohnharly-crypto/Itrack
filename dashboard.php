@@ -63,6 +63,33 @@ $role = $_SESSION['role'];
                   </div>
                 </div>
               </div>
+<button id="openUploadBtn" class="floating-upload-btn">📤 Upload Capstone</button>
+<!-- Upload Modal -->
+<div id="uploadModal" class="modal">
+  <div class="umodal-content">
+    <button onclick="closeUploadModal()" class="close-btn">&times;</button>
+    <h3>Upload Capstone File</h3>
+    <form id="uploadForm">
+      <label>Uploader:</label>
+      <input type="text" name="uploader" value="<?= $_SESSION['username']; ?>" readonly />
+
+      <label>Capstone Title:</label>
+      <input type="text" name="title" placeholder="Enter capstone title" required />
+
+      <label>Year Published:</label>
+      <input type="text" name="year" placeholder="Enter year published" required />
+
+      <label>Authors:</label>
+      <input type="text" name="authors" placeholder="Enter authors" required />
+
+      <label>Select PDF:</label>
+      <input type="file" name="pdf" accept=".pdf" required />
+
+      <button type="submit" class="upload-btn">Upload</button>
+    </form>
+    <div id="uploadStatus"></div>
+  </div>
+</div>
 
 <?php if (strtolower($_SESSION['role']) === 'admin'): ?>
 
@@ -117,75 +144,52 @@ $role = $_SESSION['role'];
                 <script src="bundle.js"></script>
 
                 
+
                   <h2>Uploaded Files</h2>
                   <ul id="fileList"></ul>
                   <script type="module" src="src/display.js"></script>
 
-                <button id="openUploadBtn" class="floating-upload-btn" title="Upload Capstone">
-                  📤 Upload Capstone
-                </button>
 
 
 
 <script type="module" src="src/upload.js"></script>
 
-<!-- File Preview Modal -->
+<!-- Main File Modal -->
 <div id="fileModal" class="modal">
   <div class="modal-content">
     <button onclick="closeModal()" class="close-btn">&times;</button>
     
-    <h3 id="modalTitle">Filename</h3>
-    <p><strong>Uploaded by:</strong> <span id="modalUploader"></span></p>
-    <p><strong>Year Publish:</strong> <span id="modalYear"></span></p>
+    <h3 id="modalTitle"></h3>
+    <p><strong>Uploader:</strong> <span id="modalUploader"></span></p>
+    <p><strong>Date Uploaded:</strong> <span id="modalDate"></span></p>
+    <p><strong>Year:</strong> <span id="modalYear"></span></p>
     <p><strong>Authors:</strong> <span id="modalAuthors"></span></p>
-    <p><strong>Date:</strong> <span id="modalDate"></span></p>
-    
-    <a id="viewFileBtn" href="#" target="_blank" class="view-file-link">🔍 View PDF</a>
-    <hr>
 
-    <h4>Comments</h4>
-
-    <!-- Scrollable comment container -->
+    <!-- 🔹 Open PDF in 2nd modal -->
+<button type="button" onclick="openPdfModal()" class="btn btn-primary">View PDF</button>
+  <h4>Comments</h4>
+ <!-- Scrollable comment container -->
     <div class="comments-wrapper">
       <div id="modalComments"></div>
     </div>
-
-    <!-- Fixed comment input at bottom -->
-    <div class="comment-input-area">
+    <!-- Comments -->
+        <div class="comment-input-area">
       <textarea id="newComment" placeholder="Write a comment..." rows="3" class="comment-input"></textarea>
       <button id="postCommentBtn" class="comment-btn">Post Comment</button>
+  </div>
+</div>
+
+<!-- PDF Side Modal -->
+<div id="pdfModal" class="side-modal">
+  <div class="side-modal-content">
+    <button onclick="closePdfModal()" class="close-btn">&times;</button>
+    <div id="pdfViewer" style="width:100%;height:100%;">
+      <!-- PDF will be injected here -->
     </div>
   </div>
 </div>
 
 
-
-<!-- Upload Modal -->
-<div id="uploadModal" class="modal">
-  <div class="umodal-content">
-    <button onclick="closeUploadModal()" class="close-btn">&times;</button>
-    <h3>Upload Capstone File</h3>
-    <form id="uploadForm">
-      <label>Uploader:</label>
-      <input type="text" name="uploader" value="<?= $_SESSION['username']; ?>" readonly />
-
-      <label>Capstone Title:</label>
-      <input type="text" name="title" placeholder="Enter capstone title" required />
-
-      <label>Year Published:</label>
-      <input type="text" name="year" placeholder="Enter year published" required />
-
-      <label>Authors:</label>
-      <input type="text" name="authors" placeholder="Enter authors" required />
-
-      <label>Select PDF:</label>
-      <input type="file" name="pdf" accept=".pdf" required />
-
-      <button type="submit" class="upload-btn">Upload</button>
-    </form>
-    <div id="uploadStatus"></div>
-  </div>
-</div>
 
 
 <script src="src/dropdown.js"></script>
