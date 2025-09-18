@@ -43,58 +43,112 @@ function extractFilenameFromBody(body) {
 }
 let currentFileUrl = null;
 let currentFileName = null;
-// ===== Approved files list =====
-async function listUploadedFiles() {
-  const list = document.getElementById('fileList');
+// ===== Approved files list with pagination =====
+async function listUploadedFiles(page = 1) {
+  const list = document.getElementById("fileList");
   if (!list) return;
-  list.innerHTML = 'Loading...';
+  list.innerHTML = "Loading...";
 
   try {
-    const res = await fetch(`${API_BASE}/api/get_files.php`, { cache: 'no-store', credentials: 'include' });
-    const files = await res.json();
-    list.innerHTML = '';
+    // ✅ Ask backend for files + pagination info
+    const res = await fetch(`${API_BASE}/api/get_files.php?page=${page}`, { cache: "no-store", credentials: "include" });
+    const { files, totalPages } = await res.json();
 
-          files.forEach(file => {
-              const li = document.createElement('li');
-              li.classList.add('file-item');
+    list.innerHTML = "";
 
-              // clickable title (with year)
-              const link = document.createElement('a');
-              link.href = "#";
-              const title = file.capstone_title || file.filename;
-              const year = file.year_published ? ` (${file.year_published})` : '';
-              link.textContent = title + year;
-              
+    // Render files
+    files.forEach(file => {
+      const li = document.createElement("li");
+      li.classList.add("file-item");
 
-              link.addEventListener('click', (e) => {
-                e.preventDefault();
-                 console.log("📂 File object:", file); // 👈 add this
-                currentFileName = file.filename;
-                openModal(file);
-                fetchComments(currentFileName);
-              });
+      const link = document.createElement("a");
+      link.href = "#";
+      const title = file.capstone_title || file.filename;
+      const year  = file.year_published ? ` (${file.year_published})` : '';
+      link.textContent = title + year;
 
-              // authors line
-              const meta = document.createElement('div');
-              meta.classList.add('file-meta');
-              meta.textContent = file.authors ? `Authors: ${file.authors}` : '';
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        currentFileName = file.filename;
+        openModal(file);
+        fetchComments(currentFileName);
+      });
 
-              li.appendChild(link);
-              li.appendChild(meta);
-              list.appendChild(li);
-        });
+      // optional: authors line
+      const meta = document.createElement("div");
+      meta.classList.add("file-meta");
+      meta.textContent = file.authors ? `Authors: ${file.authors}` : "";
 
+      li.appendChild(link);
+      li.appendChild(meta);
+      list.appendChild(li);
+    });
+
+    // ✅ Render pager below file list
+    const pager = document.getElementById("pager");
+    if (pager) {
+      buildPager(pager, totalPages, page, listUploadedFiles);
+    }
 
   } catch (err) {
     console.error("❌ Failed to fetch file metadata:", err);
-    list.innerHTML = 'Failed to load files.';
+    list.innerHTML = "Failed to load files.";
   }
 }
+// ===== Pagination builder =====
+function buildPager(container, totalPages, currentPage, onPageChange) {
+  container.innerHTML = "";
+
+  if (totalPages <= 1) return;
+
+  // Helper to create button
+  const makeBtn = (label, page, isActive = false) => {
+    const btn = document.createElement("button");
+    btn.textContent = label;
+    btn.className = "pager-btn" + (isActive ? " active" : "");
+    btn.onclick = () => onPageChange(page);
+    return btn;
+  };
+
+  // Always show first 2 pages
+  for (let i = 1; i <= Math.min(2, totalPages); i++) {
+    container.appendChild(makeBtn(i, i, i === currentPage));
+  }
+
+  // Ellipsis if currentPage is far
+  if (currentPage > 3) {
+    const dots = document.createElement("span");
+    dots.textContent = "...";
+    container.appendChild(dots);
+  }
+
+  // Middle (current) page
+  if (currentPage > 2 && currentPage < totalPages - 1) {
+    container.appendChild(makeBtn(currentPage, currentPage, true));
+  }
+
+  // Ellipsis before last
+  if (currentPage < totalPages - 2) {
+    const dots = document.createElement("span");
+    dots.textContent = "...";
+    container.appendChild(dots);
+  }
+
+  // Always show last 2 pages
+  for (let i = Math.max(totalPages - 1, 3); i <= totalPages; i++) {
+    container.appendChild(makeBtn(i, i, i === currentPage));
+  }
+
+  // Optional "Last" button
+  if (totalPages > 5 && currentPage !== totalPages) {
+    container.appendChild(makeBtn("Last", totalPages));
+  }
+}
+
 
 // ===== File modal + comments =====
 
 function openModal(file) {
-   console.log("🔗 File URL:", file.url); // 👈 check if it has the Firebase link
 
   document.getElementById('modalTitle').textContent = file.capstone_title || file.filename;
   document.getElementById('modalUploader').textContent =  (file.uploaded_by ?? '');
@@ -580,3 +634,7 @@ document.getElementById('notifList')?.addEventListener('click', async (e) => {
     .catch(() => alert('Network error.'));
   }
 });
+
+//pagination
+
+

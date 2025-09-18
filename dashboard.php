@@ -149,7 +149,8 @@ $role = $_SESSION['role'];
                   <ul id="fileList"></ul>
                   <script type="module" src="src/display.js"></script>
 
-
+<!-- Put this where you want the pager -->
+<nav id="pager" class="pager" aria-label="Pagination"></nav>
 
 
 <script type="module" src="src/upload.js"></script>
@@ -188,6 +189,7 @@ $role = $_SESSION['role'];
     </div>
   </div>
 </div>
+
 
 
 
