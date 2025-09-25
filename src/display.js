@@ -44,6 +44,62 @@ function extractFilenameFromBody(body) {
 let currentFileUrl = null;
 let currentFileName = null;
 // ===== Approved files list with pagination =====
+
+async function loadRecentFiles() {
+  const list = document.getElementById("recentList");
+  if (!list) return;
+
+  try {
+    const res = await fetch(`${API_BASE}/api/get_recent_files.php`, { cache: "no-store" });
+    const { files } = await res.json();
+
+    list.innerHTML = "";
+
+    if (!files || files.length === 0) {
+      list.innerHTML = "<li>No recent uploads</li>";
+      return;
+    }
+
+   files.forEach(file => {
+  const li = document.createElement("li");
+
+  const link = document.createElement("a");
+  link.href = "#";
+  link.textContent = file.capstone_title || file.filename;
+
+  // 🔹 Reuse the SAME logic as main file list
+  link.addEventListener("click", (e) => {
+    e.preventDefault();
+    currentFileName = file.filename;
+    openModal(file);             // ✅ same modal you already use
+    fetchComments(currentFileName);
+  });
+
+  const meta = document.createElement("small");
+  meta.textContent = ` (${file.date_uploaded})`;
+
+  li.appendChild(link);
+  li.appendChild(meta);
+  list.appendChild(li);
+});
+
+  } catch (err) {
+    console.error("Failed to load recent files", err);
+  }
+}
+window.addEventListener('DOMContentLoaded', () => {
+  loadRecentFiles();
+  // 🔹 Toggle slide in/out for recent box
+ const toggleBtn = document.getElementById("toggleRecent");
+const recentBox = document.getElementById("recentBox");
+
+toggleBtn?.addEventListener("click", () => {
+  recentBox.classList.toggle("collapsed");
+  toggleBtn.textContent = recentBox.classList.contains("collapsed") ? "⮞" : "⮜";
+});
+
+});
+
 async function listUploadedFiles(page = 1) {
   const list = document.getElementById("fileList");
   if (!list) return;

@@ -126,6 +126,7 @@ $role = $_SESSION['role'];
 </div>
 <!-- Link the external JS -->
 <script src="src/contributor.js"></script>
+
 <?php if (strtolower($_SESSION['role']) === 'admin' || strtolower($_SESSION['role']) === 'contributor'): ?>
                   <!-- Admin Approval Modal -->
                     <button id="openApprovalModal" class="admin-btn">🛠 Pending Approvals</button>
@@ -144,9 +145,22 @@ $role = $_SESSION['role'];
                 <script src="bundle.js"></script>
 
                 
-
                   <h2>Uploaded Files</h2>
                   <ul id="fileList"></ul>
+                   <!-- Recently Uploaded (toggleable) -->
+               <div class="recent-box collapsed" id="recentBox">
+  <div class="recent-header" style="display:flex;align-items:center;justify-content:space-between;">
+    <h3>Recently Uploaded</h3>
+    <button id="toggleRecent" class="arrow-btn">⮞</button>
+  </div>
+  <ul id="recentList"></ul>
+</div>
+
+
+
+
+
+
                   <script type="module" src="src/display.js"></script>
 
 <!-- Put this where you want the pager -->
