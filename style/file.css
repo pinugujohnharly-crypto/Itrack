@@ -19,6 +19,22 @@
   flex-direction: column;
 }
 
+/* Style ul and li fonts inside recent-box */
+.recent-box ul {
+  font-family: "Segoe UI", Arial, sans-serif; /* choose your font */
+  font-size: 16px;   /* adjust size */
+  font-weight: 500;  /* boldness */
+  color: #333;       /* text color */
+  line-height: 1.6;  /* spacing between lines */
+  margin: 0;
+  padding-left: 100px; /* keep bullets aligned */
+}
+
+.recent-box ul li {
+  margin-bottom: 8px; /* spacing between list items */
+}
+
+
 /* collapsed = slide out, only arrow visible */
 .recent-box.collapsed {
   transform: translateX(calc(100% - 25px)); /* leave 25px visible (for arrow) */
@@ -29,9 +45,11 @@
 
 /* hide content when collapsed */
 .recent-box.collapsed h3,
+
 .recent-box.collapsed ul {
   display: none;
 }
+
 
 /* Arrow Button (stick left edge inside box) */
 .arrow-btn {
@@ -59,7 +77,7 @@
   gap: 8px;
   justify-content: center;
   position: fixed;
-  bottom: 40px;       /* distance from bottom */
+  bottom: 20px;       /* distance from bottom */
   left: 30%;
   transform: translateX(-50%);
   z-index: 1000;

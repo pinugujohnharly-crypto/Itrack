@@ -93,9 +93,15 @@ window.addEventListener('DOMContentLoaded', () => {
  const toggleBtn = document.getElementById("toggleRecent");
 const recentBox = document.getElementById("recentBox");
 
+ // ✅ Always start OPEN (remove collapsed on load)
+  if (recentBox) {
+    recentBox.classList.remove("collapsed");
+    if (toggleBtn) toggleBtn.textContent = "⮜"; // left arrow for open state
+  }
 toggleBtn?.addEventListener("click", () => {
   recentBox.classList.toggle("collapsed");
   toggleBtn.textContent = recentBox.classList.contains("collapsed") ? "⮞" : "⮜";
+  
 });
 
 });
