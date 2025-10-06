@@ -54,7 +54,6 @@ $role = $_SESSION['role'];
 
                 <!-- Profile Dropdown -->
                 <div class="profile-dropdown">
-                   
                   <button class="profile-btn">Profile ▼</button>
                   <div class="dropdown-menu">
                     <a href="profile.php">My Profile</a>
@@ -149,12 +148,12 @@ $role = $_SESSION['role'];
                   <ul id="fileList"></ul>
                    <!-- Recently Uploaded (toggleable) -->
                <div class="recent-box collapsed" id="recentBox">
-  <div class="recent-header" style="display:flex;align-items:center;justify-content:space-between;">
-    <h3>Recently Uploaded</h3>
-    <button id="toggleRecent" class="arrow-btn">⮞</button>
-  </div>
-  <ul id="recentList"></ul>
-</div>
+                  <div class="recent-header" style="display:flex;align-items:center;justify-content:space-between;">
+                    <h3>Recently Uploaded</h3>
+                    <button id="toggleRecent" class="arrow-btn">⮞</button>
+                  </div>
+                  <ul id="recentList"></ul>
+                </div>
 
 
 
