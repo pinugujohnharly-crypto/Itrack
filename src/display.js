@@ -109,7 +109,16 @@ toggleBtn?.addEventListener("click", () => {
 async function listUploadedFiles(page = 1) {
   const list = document.getElementById("fileList");
   if (!list) return;
-  list.innerHTML = "Loading...";
+  list.innerHTML = "";
+for (let i = 0; i < 5; i++) {
+  const skeleton = document.createElement("li");
+  skeleton.classList.add("skeleton-item");
+  skeleton.innerHTML = `
+    <div class="skeleton skeleton-line"></div>
+    <div class="skeleton skeleton-line short"></div>
+  `;
+  list.appendChild(skeleton);
+}
 
   try {
     // ✅ Ask backend for files + pagination info
