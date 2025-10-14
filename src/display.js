@@ -18,7 +18,7 @@ else app = getApps()[0];
 const storage = getStorage(app);
 
 // ===== API base (match your folder path exactly) =====
-const API_BASE = '/itrack';
+const API_BASE = 'http://localhost/itrack';
 
 // ===== Utils =====
 function escapeHtml(s) {
@@ -110,15 +110,15 @@ async function listUploadedFiles(page = 1) {
   const list = document.getElementById("fileList");
   if (!list) return;
   list.innerHTML = "";
-for (let i = 0; i < 5; i++) {
-  const skeleton = document.createElement("li");
-  skeleton.classList.add("skeleton-item");
-  skeleton.innerHTML = `
-    <div class="skeleton skeleton-line"></div>
-    <div class="skeleton skeleton-line short"></div>
-  `;
-  list.appendChild(skeleton);
-}
+  for (let i = 0; i < 9; i++) {
+    const skeleton = document.createElement("li");
+    skeleton.classList.add("skeleton-item");
+    skeleton.innerHTML = `
+      <div class="skeleton skeleton-line" style="width: 70%; height: 16px;"></div>
+      <div class="skeleton skeleton-line short" style="width: 40%; height: 12px;"></div>
+    `;
+    list.appendChild(skeleton);
+  }
 
   try {
     // ✅ Ask backend for files + pagination info
@@ -671,7 +671,7 @@ document.getElementById('notifList')?.addEventListener('click', async (e) => {
     const readBtn = e.target.closest('.mark-read');
   if (readBtn) {
     const id = +readBtn.dataset.id; if (!id) return;
-    fetch(`${API_BASE}/api/mark_notification_read.php`, {
+   fetch(`${API_BASE}/api/mark_notifications_read.php`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       credentials: 'include',

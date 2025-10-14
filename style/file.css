@@ -241,10 +241,11 @@
 }
 
 .skeleton-item {
-  display: flex;
+  display: grid;
   flex-direction: column;
-  gap: 5px;
-  padding: 8px 0;
+  gap: 10px;
+  padding: 20px 0;
+max-width: 1200px;  /* limit total width */
 }
 
 .skeleton-line {
