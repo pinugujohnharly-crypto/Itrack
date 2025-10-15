@@ -21,6 +21,7 @@ $role = $_SESSION['role'];
     <link rel="stylesheet" href="style/file.css">
     <link rel="stylesheet" href="style/navbar.css">
    <link rel="stylesheet" href="style/modal.css">
+   <link rel="stylesheet" href="style/chart.css">
 </head>
 <body>
 
@@ -30,6 +31,7 @@ $role = $_SESSION['role'];
                  CAPSTONE TRACKER
               </a>
             </div>
+
   <!-- Notification Bell -->
     <div class="notif-wrap"> 
       <a>Welcome, <?= $_SESSION['username']; ?> (<?= $role ?>)</a>
@@ -63,6 +65,7 @@ $role = $_SESSION['role'];
                 </div>
               </div>
 <button id="openUploadBtn" class="floating-upload-btn">📤 Upload Capstone</button>
+
 <!-- Upload Modal -->
 <div id="uploadModal" class="modal">
   <div class="umodal-content">
@@ -123,6 +126,7 @@ $role = $_SESSION['role'];
     <div id="contributorStatus" style="margin-top:10px; font-weight:bold;"></div>
   </div>
 </div>
+
 <!-- Link the external JS -->
 <script src="src/contributor.js"></script>
 
@@ -147,6 +151,7 @@ $role = $_SESSION['role'];
                   <h2>Uploaded Files</h2>
                   <ul id="fileList"></ul>
                    <!-- Recently Uploaded (toggleable) -->
+
              <div class="recent-box collapsed" id="recentBox">
                 <div class="recent-header" style="display:flex;align-items:center;justify-content:space-between;">
                   <h3>Recently Uploaded</h3>
@@ -155,7 +160,11 @@ $role = $_SESSION['role'];
                 <ul id="recentList"></ul>
               </div>
 
-
+              <!--CHARTS-->
+              <div class="chart-container">
+                <h2>📈Upload chart</h2>
+                <canvas id="uploadChart"></canvas>
+              </div>
 
 
 
