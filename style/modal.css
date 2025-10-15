@@ -1,8 +1,8 @@
 .floating-upload-btn {
   position: fixed;
- bottom: 20px;   /* ✅ stick to bottom */
-  right: 20px; 
-  padding: 20px 20px;
+  bottom: 20px;   /* instead of top: 900px */
+  right: 20px;
+  padding: 12px 20px;
   background: #007bff;
   color: white;
   border: none;
@@ -13,15 +13,13 @@
   transition: background 0.3s;
 }
 
+
 .floating-upload-btn:hover {
   background: #0056b3;
   transform: translateY(-2px);    /* Subtle lift */
 }
 
 /* Modal overlay */
-
-/*for approval */
-
 .amodal {
   display: none; /* hidden by default */
   position: fixed;
@@ -43,11 +41,6 @@
   position: relative;
   box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
-/* Upload modal should always be on top */
-#uploadModal {
-  z-index: 3000; /* higher than fileModal (which is ~1000–2000) */
-}
-
 
 /* Close button */
 .close-btn {
