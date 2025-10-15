@@ -147,13 +147,13 @@ $role = $_SESSION['role'];
                   <h2>Uploaded Files</h2>
                   <ul id="fileList"></ul>
                    <!-- Recently Uploaded (toggleable) -->
-               <div class="recent-box collapsed" id="recentBox">
-                  <div class="recent-header" style="display:flex;align-items:center;justify-content:space-between;">
-                    <h3>Recently Uploaded</h3>
-                    <button id="toggleRecent" class="arrow-btn">⮞</button>
-                  </div>
-                  <ul id="recentList"></ul>
+             <div class="recent-box collapsed" id="recentBox">
+                <div class="recent-header" style="display:flex;align-items:center;justify-content:space-between;">
+                  <h3>Recently Uploaded</h3>
+                  <button id="toggleRecent" class="arrow-btn">⮞</button>
                 </div>
+                <ul id="recentList"></ul>
+              </div>
 
 
 
