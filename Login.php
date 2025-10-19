@@ -105,8 +105,7 @@
     <div class="navbar">
   <div class="trimexlogo">
     <a href="homescreen.php">
-      <img src="logo/Trimex.jpg" alt="Trimex Logo" style="height: 40px; vertical-align: middle;">
-      TRIMEX CAPSTONE TRACKER
+    CAPSTONE TRACKER
     </a>
   </div>
   <div class="auth-links">
