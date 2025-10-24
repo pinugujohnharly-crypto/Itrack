@@ -105,3 +105,139 @@
   margin-top: 10px;
   font-weight: bold;
 }
+/* ==== Upload Statistics Button ==== */
+.btn.btn-primary[data-bs-target="#uploadStatsModal"] {
+  background: linear-gradient(135deg, #4e73df, #224abe);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 22px;
+  font-weight: 600;
+  box-shadow: 0 4px 10px rgba(78, 115, 223, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn.btn-primary[data-bs-target="#uploadStatsModal"]:hover {
+  background: linear-gradient(135deg, #375ad6, #1e3f9a);
+  transform: scale(1.05);
+  box-shadow: 0 6px 14px rgba(78, 115, 223, 0.4);
+}
+
+/* ==== Modal Backdrop and Centering ==== */
+#uploadStatsModal {
+  display: none; /* hidden by default */
+  position: fixed;
+  inset: 0;
+  z-index: 1055;
+  background-color: rgba(0, 0, 0, 0.55);
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+  transition: opacity 0.25s ease;
+}
+
+#uploadStatsModal.show {
+  display: flex !important;
+  opacity: 1;
+}
+
+/* Prevent background scroll when modal is open */
+body.modal-open {
+  overflow: hidden;
+}
+
+/* ==== Modal Dialog ==== */
+#uploadStatsModal .modal-dialog {
+  width: 90%;
+  max-width: 700px;
+  margin: 0; /* remove Bootstrap margins */
+}
+
+/* ==== Modal Content ==== */
+#uploadStatsModal .modal-content {
+  border-radius: 15px;
+  border: none;
+  background: #f9fbff;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  transform: scale(0.9);
+  transition: transform 0.25s ease;
+}
+
+#uploadStatsModal.show .modal-content {
+  transform: scale(1);
+}
+
+/* ==== Modal Header ==== */
+#uploadStatsModal .modal-header {
+  background: linear-gradient(135deg, #4e73df, #224abe);
+  color: #fff;
+  border: none;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#uploadStatsModal .modal-title {
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+/* Close Button */
+#uploadStatsModal .btn-close {
+  filter: invert(1) brightness(2);
+  opacity: 0.9;
+  transition: 0.2s ease;
+}
+
+#uploadStatsModal .btn-close:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* ==== Modal Body ==== */
+#uploadStatsModal .modal-body {
+  padding: 25px 20px;
+  text-align: center;
+}
+
+/* ==== Filter Buttons ==== */
+#uploadStatsModal .btn-outline-primary {
+  border: 2px solid #4e73df;
+  color: #4e73df;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+
+#uploadStatsModal .btn-outline-primary:hover,
+#uploadStatsModal .btn-outline-primary.active {
+  background: #4e73df;
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(78, 115, 223, 0.3);
+}
+
+/* ==== Chart Area ==== */
+#uploadStatsModal canvas {
+  margin-top: 15px;
+  max-height: 300px;
+  width: 100%;
+}
+
+/* ==== Responsive Design ==== */
+@media (max-width: 768px) {
+  #uploadStatsModal .modal-dialog {
+    width: 95%;
+  }
+
+  #uploadStatsModal .modal-body {
+    padding: 15px;
+  }
+
+  #uploadStatsModal .modal-header {
+    padding: 12px 15px;
+  }
+}

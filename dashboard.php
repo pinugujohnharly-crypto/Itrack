@@ -22,7 +22,7 @@ $role = $_SESSION['role'];
     <link rel="stylesheet" href="style/navbar.css">
    <link rel="stylesheet" href="style/modal.css">
    <!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
 
 <!-- Bootstrap Bundle (includes Popper) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -41,7 +41,7 @@ $role = $_SESSION['role'];
             </div>
   <!-- Notification Bell -->
     <div class="notif-wrap"> 
-      <a>Welcome, <?= $_SESSION['username']; ?> (<?= $role ?>)</a>
+      <a id="username">Welcome, <?= $_SESSION['username']; ?> (<?= $role ?>)</a>
   <button id="notifBtn" class="notif-btn" aria-haspopup="true" aria-expanded="false">
     🔔
     <span id="notifBadge" class="notif-badge" hidden>0</span>
@@ -160,7 +160,8 @@ $role = $_SESSION['role'];
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="uploadStatsModalLabel">Uploaded Files Statistics</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <button type="button" class="btn-close" id="closeUploadStatsModal" aria-label="Close"></button>
+
       </div>
 
       <div class="modal-body">
@@ -176,7 +177,6 @@ $role = $_SESSION['role'];
     </div>
   </div>
 </div>
-
 <!-- Chart.js and your custom JS -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="src/uploadChart.js"></script>
