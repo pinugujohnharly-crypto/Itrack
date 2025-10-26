@@ -21,7 +21,16 @@ $role = $_SESSION['role'];
     <link rel="stylesheet" href="style/file.css">
     <link rel="stylesheet" href="style/navbar.css">
    <link rel="stylesheet" href="style/modal.css">
+
    <link rel="stylesheet" href="style/chart.css">
+   <!-- Bootstrap CSS -->
+
+<!-- Bootstrap Bundle (includes Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
 </head>
 <body>
 
@@ -34,7 +43,7 @@ $role = $_SESSION['role'];
 
   <!-- Notification Bell -->
     <div class="notif-wrap"> 
-      <a>Welcome, <?= $_SESSION['username']; ?> (<?= $role ?>)</a>
+      <a id="username">Welcome, <?= $_SESSION['username']; ?> (<?= $role ?>)</a>
   <button id="notifBtn" class="notif-btn" aria-haspopup="true" aria-expanded="false">
     🔔
     <span id="notifBadge" class="notif-badge" hidden>0</span>
@@ -101,6 +110,7 @@ $role = $_SESSION['role'];
                     </button>
               <?php endif; ?>
 
+
 <!-- Contributor Modal -->
 <div id="contributorModal" class="Cmodal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#00000080; justify-content:center; align-items:center;">
   <div style="background:white; padding:20px; width:400px; position:relative; border-radius:10px;">
@@ -143,6 +153,37 @@ $role = $_SESSION['role'];
                     </div>
                   </div>
 
+<!-- Button to Open Modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadStatsModal">
+  View Upload Statistics
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="uploadStatsModal" tabindex="-1" aria-labelledby="uploadStatsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="uploadStatsModalLabel">Uploaded Files Statistics</h5>
+        <button type="button" class="btn-close" id="closeUploadStatsModal" aria-label="Close"></button>
+
+      </div>
+
+      <div class="modal-body">
+        <div class="d-flex justify-content-center mb-3 flex-wrap">
+          <button class="btn btn-outline-primary mx-1" id="dailyBtn">Daily</button>
+          <button class="btn btn-outline-primary mx-1" id="weeklyBtn">Weekly</button>
+          <button class="btn btn-outline-primary mx-1" id="monthlyBtn">Monthly</button>
+          <button class="btn btn-outline-primary mx-1" id="yearlyBtn">Yearly</button>
+        </div>
+
+        <canvas id="uploadChart" height="120"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Chart.js and your custom JS -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="src/uploadChart.js"></script>
 
 
                 <script src="bundle.js"></script>
