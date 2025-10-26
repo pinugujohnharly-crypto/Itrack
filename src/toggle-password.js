@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const toggleBtn = document.getElementById('togglePassword');
-  const passwordInput = document.getElementById('password');
+  const toggleBtn = document.getElementById('togglePassword2');
+  const passwordInput = document.getElementById('password2');
   const icon = toggleBtn.querySelector('i');
 
   if (toggleBtn && passwordInput && icon) {

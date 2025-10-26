@@ -201,13 +201,6 @@ $role = $_SESSION['role'];
                 <ul id="recentList"></ul>
               </div>
 
-              <!--CHARTS-->
-              <div class="chart-container">
-                <h2>📈Upload chart</h2>
-                <canvas id="uploadChart"></canvas>
-              </div>
-
-
 
 
                   <script type="module" src="src/display.js"></script>

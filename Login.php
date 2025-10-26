@@ -78,7 +78,7 @@
                     height: 30px;
                 position: absolute;
                 right: -80px;
-                top: 13%;
+                top: 10%;
                 transform: translateY(-10%);
                 background: #007bff;
                 color: #fff;
