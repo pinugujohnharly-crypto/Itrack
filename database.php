@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
-$username = "root";  // default XAMPP username
-$password = "";      // default XAMPP has no password
+$username = "u123456789_admin";  // default XAMPP username
+$password = "12345";      // default XAMPP has no password
 $database = "capstone_tracker"; // change to your real database name
 
 // Create connection
