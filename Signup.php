@@ -255,7 +255,6 @@
 </div>
 
       <button type="submit">Register</button>
-      <a href="login.php">Already have an account? Login</a>
     </form>
   </div>
 
