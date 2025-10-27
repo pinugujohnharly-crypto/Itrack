@@ -207,7 +207,7 @@
     <a href="Homescreen.php">CAPSTONE TRACKER</a>
   </div>
   <div class="auth-links">
-    <a href="#" id="loginBtn" class="login">Log in</a>
+    <a href="#" id="loginBtn" class="login">Login</a>
     <a href="Signup.php" class="signup">Sign up</a>
 
     <!-- Dropdown Login -->
