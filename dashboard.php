@@ -14,7 +14,7 @@ $role = $_SESSION['role'];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>T-Tracks</title>
+    <title>C-Tracks</title>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="stylesheet" href="style/hmmenu.css"> 
     <link rel="stylesheet" href="style/modal-comments.css">
