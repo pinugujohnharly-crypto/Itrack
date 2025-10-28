@@ -191,6 +191,13 @@ $role = $_SESSION['role'];
                 <!-- 🔹 Manage Files Modal -->
 <div id="manageFilesModal" class="modal" style="display:none;">
   <div class="modal-content">
+    <div id="pdfDrawer" class="pdf-drawer">
+  <div class="pdf-drawer-header">
+    <h3>📄 PDF Preview</h3>
+    <button class="close-btn" onclick="closePdfDrawer()">×</button>
+  </div>
+  <div id="pdfDrawerContent" class="pdf-drawer-content"></div>
+</div>
     <button onclick="closeManageFiles()" class="close-btn">&times;</button>
     <h2>Manage Uploaded Files</h2>
     <div id="manageFilesContainer">Loading files...</div>
@@ -299,20 +306,20 @@ function loadManageFiles(page = 1) {
         container.innerHTML = '<p>No uploaded files found.</p>';
         return;
       }
+container.innerHTML = data.files.map(file => `
+  <div class="file-row">
+    <div>
+      <strong>${file.capstone_title}</strong><br>
+      <small>${file.authors} (${file.year_published})</small><br>
+      <small>Uploaded by: ${file.uploaded_by}</small>
+    </div>
+    <div>
+      <button class="btn-view" onclick="openPdfDrawer('${file.url}', '${file.capstone_title}')">View</button>
+      <button onclick="deleteFile(${file.id}, '${file.capstone_title}')" class="btn-delete">Delete</button>
+    </div>
+  </div>
+`).join('');
 
-      container.innerHTML = data.files.map(file => `
-        <div class="file-row">
-          <div>
-            <strong>${file.capstone_title}</strong><br>
-            <small>${file.authors} (${file.year_published})</small><br>
-            <small>Uploaded by: ${file.uploaded_by}</small>
-          </div>
-          <div>
-            <a href="${file.url}" target="_blank" class="btn-view">View</a>
-            <button onclick="deleteFile(${file.id}, '${file.capstone_title}')" class="btn-delete">Delete</button>
-          </div>
-        </div>
-      `).join('');
 
       // Pagination
       let pagination = '<div class="pagination">';
@@ -343,6 +350,22 @@ function deleteFile(id, title) {
   })
   .catch(err => alert('Error deleting file.'));
 }
+function openPdfDrawer(url, title) {
+  const drawer = document.getElementById("pdfDrawer");
+  const content = document.getElementById("pdfDrawerContent");
+  const header = drawer.querySelector("h3");
+
+  header.textContent = `📄 ${title}`;
+  content.innerHTML = `<iframe src="${url}" width="100%" height="100%" style="border:none;"></iframe>`;
+  
+  drawer.classList.add("active");
+}
+
+function closePdfDrawer() {
+  document.getElementById("pdfDrawer").classList.remove("active");
+}
+
+
 </script>
 
 

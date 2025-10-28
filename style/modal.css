@@ -7,7 +7,7 @@
   color: white;
   border: none;
   border-radius: 5px;
-  z-index: 10000;
+  z-index: 100;
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: background 0.3s;
@@ -159,9 +159,9 @@ display: inline-block;
   position: sticky;
   top: 0;
   background: #fff;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  z-index: 5;
+  padding-top: 30px;
+  padding-bottom: 20px;
+  z-index: 10;
   border-bottom: 1px solid #ddd;
 }
 
@@ -261,3 +261,144 @@ display: inline-block;
   background: #007bff;
   color: #fff;
 }
+/* ==== Scoped PDF Drawer (Inside Manage Files Modal) ==== */
+#manageFilesModal .pdf-drawer {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 70%;
+  max-width: 900px;
+  height: 100%;
+  background: #fff;
+  box-shadow: -4px 0 10px rgba(0,0,0,0.2);
+  z-index: 2100; /* above manageFilesModal */
+  display: flex;
+  flex-direction: column;
+  transition: right 0.4s ease;
+}
+
+#manageFilesModal .pdf-drawer.active {
+  right: 0;
+}
+
+#manageFilesModal .pdf-drawer-header {
+  background: #f8f9fa;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+}
+
+#manageFilesModal .pdf-drawer-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+#manageFilesModal .pdf-drawer-header .close-btn {
+  border: none;
+  background: transparent;
+  font-size: 24px;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+#manageFilesModal .pdf-drawer-header .close-btn:hover {
+  color: red;
+}
+
+#manageFilesModal .pdf-drawer-content {
+  flex: 1;
+  overflow: hidden;
+}
+#manageFilesModal .pdf-drawer-content iframe {
+  width: 100%;
+  height: 100%;
+}
+
+/* ==== Mobile View (Drawer Slides Up) ==== */
+@media (max-width: 768px) {
+  #manageFilesModal .pdf-drawer {
+    width: 100%;
+    height: 80%;
+    right: 0;
+    bottom: -100%;
+    top: auto;
+    transition: bottom 0.4s ease;
+  }
+  #manageFilesModal .pdf-drawer.active {
+    bottom: 0;
+  }
+}
+/* ==== Scoped Left-Side PDF Drawer (Inside Manage Files Modal) ==== */
+#manageFilesModal .pdf-drawer {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 70%;
+  max-width: 900px;
+  height: 100%;
+  background: #fff;
+  box-shadow: 4px 0 10px rgba(0,0,0,0.2);
+  z-index: 2100; /* above manageFilesModal */
+  display: flex;
+  flex-direction: column;
+  transition: left 0.4s ease;
+}
+
+#manageFilesModal .pdf-drawer.active {
+  left: 0;
+}
+
+#manageFilesModal .pdf-drawer-header {
+  background: #f8f9fa;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+}
+
+#manageFilesModal .pdf-drawer-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+#manageFilesModal .pdf-drawer-header .close-btn {
+  border: none;
+  background: transparent;
+  font-size: 24px;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+#manageFilesModal .pdf-drawer-header .close-btn:hover {
+  color: red;
+}
+
+#manageFilesModal .pdf-drawer-content {
+  flex: 1;
+  overflow: hidden;
+}
+#manageFilesModal .pdf-drawer-content iframe {
+  width: 100%;
+  height: 100%;
+}
+
+/* ==== Mobile View (Drawer Slides Up) ==== */
+@media (max-width: 768px) {
+  #manageFilesModal .pdf-drawer {
+    width: 100%;
+    height: 80%;
+    left: 0;
+    bottom: -100%;
+    top: auto;
+    transition: bottom 0.4s ease;
+  }
+  #manageFilesModal .pdf-drawer.active {
+    bottom: 0;
+  }
+}
+
