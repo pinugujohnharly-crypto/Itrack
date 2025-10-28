@@ -112,28 +112,28 @@ $role = $_SESSION['role'];
 
 
 <!-- Contributor Modal -->
-<div id="contributorModal" class="Cmodal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#00000080; justify-content:center; align-items:center;">
+<div id="contributorModal" class="Cmodal" style="display:none; position:fixed; top:0; left:0; width:100%;z-index: 1001; height:100%; background:#00000080; justify-content:center; align-items:center;">
   <div style="background:white; padding:20px; width:400px; position:relative; border-radius:10px;">
     <button id="closeContributorModal" style="position:absolute; top:5px; right:10px; font-size:18px;">&times;</button>
     <h3>Create Contributor Account</h3>
     
     <form id="contributorForm">
       <label>First Name:</label>
-      <input type="text" name="first_name" required style="width:100%; padding:10px; margin-bottom:10px;" />
+      <input type="text" name="first_name" required style="width:90%; padding:10px; margin-bottom:10px; margin-left:10px;" />
 
       <label>Last Name:</label>
-      <input type="text" name="last_name" required style="width:100%; padding:10px; margin-bottom:10px;" />
+      <input type="text" name="last_name" required style="width:90%; padding:10px; margin-bottom:10px; margin-left:10px;" />
 
       <label>Username:</label>
-      <input type="text" name="username" required style="width:100%; padding:10px; margin-bottom:10px;" />
+      <input type="text" name="username" required style="width:90%; padding:10px; margin-bottom:10px; margin-left:10px;" />
 
       <label>Password:</label>
-      <input type="password" name="password" required style="width:100%; padding:10px; margin-bottom:10px;" />
+      <input type="password" name="password" required style="width:90%; padding:10px; margin-bottom:10px; margin-left:10px;" />
 
       <button type="submit" style="padding:10px 20px; background:#28a745; color:white; border:none; border-radius:5px;">Create</button>
     </form>
 
-    <div id="contributorStatus" style="margin-top:10px; font-weight:bold;"></div>
+    <div id="contributorStatus" style="margin-top:10px ; font-weight:bold;"></div>
   </div>
 </div>
 
@@ -164,7 +164,7 @@ $role = $_SESSION['role'];
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="uploadStatsModalLabel">Uploaded Files Statistics</h5>
-        <button type="button" class="btn-close" id="closeUploadStatsModal" aria-label="Close"></button>
+        <button type="button" class="btn-close" id="closeUploadStatsModal" aria-label="Close">&times;</button>
 
       </div>
 

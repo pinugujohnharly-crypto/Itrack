@@ -140,7 +140,7 @@
 .notif-wrap{position:relative;margin-left: auto;
     display: flex;
     align-items: center;
-    gap: 30px;}
+    gap: 10px;}
 .notif-btn{position:relative;background:#333;
     border:1px solid #e5e7eb;
     border-radius:200px;

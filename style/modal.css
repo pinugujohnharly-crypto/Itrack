@@ -170,7 +170,7 @@ body.modal-open {
 
 /* ==== Modal Header ==== */
 #uploadStatsModal .modal-header {
-  background: linear-gradient(135deg, #4e73df, #224abe);
+    background: #007bff;
   color: #fff;
   border: none;
   padding: 16px 20px;
