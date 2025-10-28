@@ -188,7 +188,20 @@ $role = $_SESSION['role'];
 
                 <script src="bundle.js"></script>
 
-                
+                <!-- 🔹 Manage Files Modal -->
+<div id="manageFilesModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <button onclick="closeManageFiles()" class="close-btn">&times;</button>
+    <h2>Manage Uploaded Files</h2>
+    <div id="manageFilesContainer">Loading files...</div>
+  </div>
+</div>
+
+<!-- Button to Open Modal -->
+<button class="btn btn-primary" onclick="openManageFiles()">📂 Manage Uploaded Files</button>
+
+
+
                 <!-- Recently Uploaded (toggleable) -->
 
              <div class="recent-box collapsed" id="recentBox">
@@ -260,6 +273,79 @@ $role = $_SESSION['role'];
   document.getElementById('openUploadBtn')?.addEventListener('click', openUploadModal);
   window.closeUploadModal = closeUploadModal; // used by modal close button
 </script>
+
+<script>
+function openManageFiles() {
+  const modal = document.getElementById("manageFilesModal");
+  modal.style.display = "flex";
+  loadManageFiles(1);
+}
+
+function closeManageFiles() {
+  document.getElementById("manageFilesModal").style.display = "none";
+}
+
+function loadManageFiles(page = 1) {
+  fetch(`api/manage_uploaded_files.php?page=${page}`)
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById('manageFilesContainer');
+      if (!data.ok) {
+        container.innerHTML = `<p style="color:red;">${data.error}</p>`;
+        return;
+      }
+
+      if (data.files.length === 0) {
+        container.innerHTML = '<p>No uploaded files found.</p>';
+        return;
+      }
+
+      container.innerHTML = data.files.map(file => `
+        <div class="file-row">
+          <div>
+            <strong>${file.capstone_title}</strong><br>
+            <small>${file.authors} (${file.year_published})</small><br>
+            <small>Uploaded by: ${file.uploaded_by}</small>
+          </div>
+          <div>
+            <a href="${file.url}" target="_blank" class="btn-view">View</a>
+            <button onclick="deleteFile(${file.id}, '${file.capstone_title}')" class="btn-delete">Delete</button>
+          </div>
+        </div>
+      `).join('');
+
+      // Pagination
+      let pagination = '<div class="pagination">';
+      for (let i = 1; i <= data.totalPages; i++) {
+        pagination += `<button class="${i === page ? 'active' : ''}" onclick="loadManageFiles(${i})">${i}</button>`;
+      }
+      pagination += '</div>';
+      container.innerHTML += pagination;
+    })
+    .catch(err => {
+      document.getElementById('manageFilesContainer').innerHTML = '<p>Error loading files.</p>';
+      console.error(err);
+    });
+}
+
+function deleteFile(id, title) {
+  if (!confirm(`Delete "${title}"?`)) return;
+
+  fetch('api/delete_uploaded_file.php', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    body: 'id=' + encodeURIComponent(id)
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert(data.message || data.error);
+    if (data.ok) loadManageFiles();
+  })
+  .catch(err => alert('Error deleting file.'));
+}
+</script>
+
+
 
  <script type="module" src="src/display.js"></script>
 </body>
