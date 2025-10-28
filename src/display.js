@@ -123,9 +123,12 @@ async function listUploadedFiles(page = 1) {
   }
 
   try {
-    // ✅ Ask backend for files + pagination info
+// ✅ Ask backend for files + pagination info
     const res = await fetch(`${API_BASE}/api/get_files.php?page=${page}`, { cache: "no-store", credentials: "include" });
-    const { files, totalPages } = await res.json();
+    const text = await res.text();  // Get raw text first
+    console.log("Raw response:", text);  // See what's actually returned
+    const data = JSON.parse(text);  // Then parse
+    const { files, totalPages } = data;
 
     list.innerHTML = "";
 
