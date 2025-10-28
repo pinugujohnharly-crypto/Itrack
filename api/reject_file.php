@@ -1,8 +1,9 @@
 <?php
+require_once 'cors.php';
 // api/reject_file.php (MySQLi version)
 session_start();
 header('Content-Type: application/json');
-require_once 'cors.php';
+
 // Use the SAME include you use in approve_file.php:
 require_once '../database.php';   // must provide $conn (mysqli)
 

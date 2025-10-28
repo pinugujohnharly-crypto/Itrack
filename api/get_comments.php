@@ -1,7 +1,8 @@
 <?php
+require_once 'cors.php';
 include '../database.php';
 header('Content-Type: application/json');
-require_once 'cors.php';
+
 // Get file name from query string
 $file = $_GET['file'] ?? '';
 if (!$file) {

@@ -1,8 +1,8 @@
 <?php
 // api/list_my_notifications.php
 require_once 'cors.php';
-require_once '../database.php';
 session_start();
+require_once '../database.php';
 header('Content-Type: application/json');
 
 // Pick the SAME identity you inserted as notifications.user_key
