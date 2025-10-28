@@ -204,7 +204,7 @@
 <body>
    <div class="navbar">
   <div class="trimexlogo">
-    <a href="Homescreen.php">CAPSTONE TRACKER</a>
+    <a href="Homescreen.php">CAPSTONE TRACKERs</a>
   </div>
   <div class="auth-links">
     <a href="#" id="loginBtn" class="login">Login</a>
