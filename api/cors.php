@@ -1,4 +1,3 @@
-
 <?php
 header("Access-Control-Allow-Origin: https://itrack.ezwebsites.com");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");

@@ -1,6 +1,7 @@
 <?php
-require_once 'cors.php';
 session_start();
+require_once 'cors.php';
+
 require_once '../database.php';
 // Number of files per page
 $limit = 10;

@@ -1,10 +1,11 @@
-
-/* recently uploaded files */
+/* ================================
+   RECENTLY UPLOADED FILES (Desktop)
+   ================================ */
 .recent-box {
   background: #fff;
-  flex-wrap: wrap; 
+  flex-wrap: wrap;
   border: 1px solid #ddd;
-  border-radius: 10px 0 0 10px;  /* rounded only left when collapsed */
+  border-radius: 10px 0 0 10px;
   padding: 15px;
   width: 500px;
   min-height: 350px;
@@ -19,39 +20,38 @@
   flex-direction: column;
 }
 
-/* Style ul and li fonts inside recent-box */
+/* text and list styling */
 .recent-box ul {
-  font-family: "Segoe UI", Arial, sans-serif; /* choose your font */
-  font-size: 16px;   /* adjust size */
-  font-weight: 500;  /* boldness */
-  color: #333;       /* text color */
-  line-height: 1.6;  /* spacing between lines */
+  font-family: "Segoe UI", Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+  line-height: 1.6;
   margin: 0;
-  padding-left: 100px; /* keep bullets aligned */
+  padding-left: 100px;
+  list-style-type: disc;
+  max-height: 250px;
+  overflow-y: auto; /* scrollable if long */
 }
 
 .recent-box ul li {
-  margin-bottom: 8px; /* spacing between list items */
+  margin-bottom: 8px;
 }
 
-
-/* collapsed = slide out, only arrow visible */
+/* collapsed state (desktop) */
 .recent-box.collapsed {
-  transform: translateX(calc(100% - 25px)); /* leave 25px visible (for arrow) */
-  width: 20px; 
+  transform: translateX(calc(100% - 25px));
+  width: 20px;
   padding: 10px 0;
   background: #f9f9f9;
 }
 
-/* hide content when collapsed */
 .recent-box.collapsed h3,
-
 .recent-box.collapsed ul {
   display: none;
 }
 
-
-/* Arrow Button (stick left edge inside box) */
+/* arrow button (desktop) */
 .arrow-btn {
   position: absolute;
   left: -25px;
@@ -71,13 +71,81 @@
   justify-content: center;
 }
 
+/* ================================
+   MOBILE VERSION (below buttons, above file list)
+   ================================ */
+@media (max-width: 768px) {
+  .recent-box {
+    position: relative; /* stays in flow */
+    top: auto;
+    right: auto;
+    left: auto;
+    width: 100%;
+    min-height: auto;
+    margin: 12px 0;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+    background: #fff;
+    z-index: 5;
+    padding: 12px 15px;
+    order: 2; /* ensures below buttons but above file list */
+  }
 
+  /* scrollable list inside */
+  .recent-box ul {
+    max-height: 200px;
+    overflow-y: auto;
+    padding-left: 20px;
+    font-size: 14px;
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .arrow-btn {
+    display: none;
+  }
+
+  .recent-box.collapsed {
+    transform: none;
+  }
+
+  /* Maintain stacking order */
+  .dashboard-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .upload-controls { order: 1; }
+  .recent-box { order: 2; }
+  .file-list, #fileList { order: 3; }
+  .pager { order: 4; }
+}
+
+/* Optional Header (mobile only) */
+.recent-header {
+  display: none;
+  background: #1877f2;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-weight: bold;
+  border-radius: 0 0 10px 10px;
+}
+@media (max-width: 768px) {
+  .recent-header {
+    display: block;
+    border-radius: 0;
+  }
+}
+
+/* === PAGER (Desktop Default) === */
 .pager {
   display: flex;
   gap: 8px;
   justify-content: center;
   position: fixed;
-  bottom: 20px;       /* distance from bottom */
+  bottom: 20px;
   left: 30%;
   transform: translateX(-50%);
   z-index: 1000;
@@ -85,13 +153,12 @@
 
 .pager button,
 .pager .ellipsis {
-
   min-width: 40px;
   height: 40px;
   padding: 0 12px;
   border: none;
   border-radius: 10px;
-  background: #202020;            /* magenta */
+  background: #202020;
   color: #fff;
   font-weight: 700;
   cursor: pointer;
@@ -102,16 +169,12 @@
 }
 
 .pager button:hover { filter: brightness(1.06); }
-
 .pager button[disabled],
 .pager button.is-active {
   cursor: default;
   filter: none;
 }
-
-.pager button.is-active {          /* current page */
-  background: #f80303;
-}
+.pager button.is-active { background: #f80303; }
 
 .pager .ellipsis {
   background: transparent;
@@ -122,15 +185,28 @@
   padding: 0 6px;
 }
 
+/* === PAGER (Mobile Adjustments) === */
+@media (max-width: 768px) {
+  .pager {
+    position: relative;   /* follow layout, not fixed */
+    bottom: auto;
+    left: auto;
+    transform: none;
+    margin-top: 16px;
+    margin-bottom: 40px;
+    justify-content: center;
+    z-index: 1;
+    width: 100%;
+  }
+}
 
 /* ===== PDF Side Modal (Drawer) ===== */
-
 .side-modal {
   position: fixed;
   top: 0;
-  left: -100%;          /* hidden by default */
-  width: 70%;           /* takes 70% of screen width */
-  max-width: 900px;     /* optional: limit max size */
+  left: -100%;
+  width: 70%;
+  max-width: 900px;
   height: 100%;
   background: #fff;
   box-shadow: 4px 0 15px rgba(0,0,0,0.25);
@@ -139,10 +215,7 @@
   display: flex;
   flex-direction: column;
 }
-
-.side-modal.active {
-  left: 0; /* slide in */
-}
+.side-modal.active { left: 0; }
 
 .side-modal-content {
   flex: 1;
@@ -173,7 +246,7 @@
 /* Iframe container */
 #pdfViewer {
   flex: 1;
-  background: #eee;     /* light bg when no PDF */
+  background: #eee;
   border-radius: 8px;
   overflow: hidden;
   margin-top: 8px;
@@ -186,11 +259,10 @@
 
 /* Responsive tweaks */
 @media (max-width: 768px) {
-  .side-modal {
-    width: 100%;   /* full screen on mobile */
-  }
+  .side-modal { width: 100%; }
 }
-/* General button style */
+
+/* === Buttons === */
 .btn {
   display: inline-block;
   padding: 10px 18px;
@@ -202,8 +274,6 @@
   transition: all 0.25s ease;
   text-align: center;
 }
-
-/* Primary button (red theme for consistency with your sidebar/dashboard) */
 .btn-primary {
   background: #d00000;
   color: #fff;
@@ -219,72 +289,47 @@
   transform: translateY(0);
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
-
-/* Optional: smaller version */
 .btn-sm {
   padding: 6px 12px;
   font-size: 13px;
 }
 
-/* style for list items */
-/* Add this to your CSS */
+/* skeleton loader */
 .skeleton {
   background: linear-gradient(90deg, #eee 25%, #f5f5f5 50%, #eee 75%);
   background-size: 200% 100%;
   animation: skeleton-loading 1.2s infinite linear;
   border-radius: 4px;
 }
-
 @keyframes skeleton-loading {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
-
 .skeleton-item {
   display: grid;
   flex-direction: column;
   gap: 10px;
   padding: 20px 0;
-max-width: 1200px;  /* limit total width */
+  max-width: 1200px;
 }
+.skeleton-line { height: 14px; width: 80%; }
+.skeleton-line.short { width: 40%; }
 
-.skeleton-line {
-  height: 14px;
-  width: 80%;
-}
-.skeleton-line.short {
-  width: 40%;
-}
-.fade-in {
-  opacity: 0;
-  transition: opacity 0.4s ease-in;
-}
-.fade-in.loaded {
-  opacity: 1;
-}
+.fade-in { opacity: 0; transition: opacity 0.4s ease-in; }
+.fade-in.loaded { opacity: 1; }
 
-/* container for your list */
-.h2 {
-  margin-left: 20px; /* space on left */
-  margin-right: 300px;/* space on right */
-  max-width: 1200px;  /* limit total width */
-}
-#fileModal {
-  z-index: 2000;
-}
+.h2 { margin-left: 20px; margin-right: 300px; max-width: 1200px; }
+
+#fileModal { z-index: 2000; }
+
 #fileList {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* responsive columns */
-  gap: 10px; /* space between items */
-  list-style: none; /* remove bullets if it's a <ul>/<ol> */
-  padding: 0;
-  margin: 0;
-  padding-left: 20px; /* space on left */
-  padding-right: 300px;/* space on right */
-max-width: 1200px;  /* limit total width */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 10px;
+  list-style: none;
+  padding: 0 300px 0 20px;
+  max-width: 1200px;
 }
-
-/* file-item stays almost the same */
 .file-item {
   padding: 20px;
   border: 1px solid #ccc;
@@ -293,43 +338,30 @@ max-width: 1200px;  /* limit total width */
   transition: background-color 0.3s;
   cursor: pointer;
 }
-
 .file-item a {
   text-decoration: none;
   color: #007bff;
   font-weight: bold;
 }
-
 .file-item .file-meta {
   font-size: 13px;
   color: #555;
   margin-top: 4px;
 }
-
-.file-item:hover {
-  background-color: #e0e0e0;
-}
-
-.file-item a:hover {
-  color: #005fa3;
-}
-
-
+.file-item:hover { background-color: #e0e0e0; }
+.file-item a:hover { color: #005fa3; }
 
 /* Admin Approval Modal */
 .modal {
   display: none;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   background: rgba(0, 0, 0, 0.6);
   justify-content: center;
   align-items: center;
   z-index: 1000;
 }
-
 .modal-content {
   background: #fff;
   padding: 20px;
@@ -339,21 +371,17 @@ max-width: 1200px;  /* limit total width */
   border-radius: 10px;
   position: relative;
 }
-
 .close-btn {
   position: absolute;
-  top: 10px;
-  right: 15px;
+  top: 10px; right: 15px;
   background: transparent;
   border: none;
   font-size: 20px;
   cursor: pointer;
 }
-
-
 .admin-btn {
   padding: 10px 20px;
-  background-color: #007bff;      /* Bootstrap Blue */
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 8px;
@@ -363,19 +391,19 @@ max-width: 1200px;  /* limit total width */
   transition: background-color 0.3s ease, transform 0.2s ease;
   margin: 10px 0;
 }
-
 .admin-btn:hover {
-  background-color: #0056b3;      /* Darker Blue on Hover */
-  transform: translateY(-2px);    /* Subtle lift */
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+.admin-btn:active {
+  background-color: #004494;
+  transform: translateY(0);
 }
 
-.admin-btn:active {
-  background-color: #004494;      /* Even darker when clicked */
-  transform: translateY(0);       /* Reset lift */
-}
-/* contributor Modal */
+/* contributor button */
 .btn-green {
-  margin: 20px;
+  display: inline-block;
+  margin: 10px 0 10px 15px;
   padding: 10px 20px;
   background: #007bff;
   color: white;
@@ -383,21 +411,122 @@ max-width: 1200px;  /* limit total width */
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
   transition: background-color 0.3s ease, transform 0.2s ease;
-  margin: 10px 0;
 }
-.btn-green {
-  display: inline-block; /* or block */
-  margin: 10px 0 10px 15px; /* add left margin */
-}
-
 .btn-green:hover {
-  background: #0056b3; /* darker green on hover */
-   transform: translateY(-2px);    /* Subtle lift */
+  background: #0056b3;
+  transform: translateY(-2px);
+}
+.btn-green:active {
+  background-color: #004494;
+  transform: translateY(0);
 }
 
-.btn-green:active {
-  background-color: #004494;      /* Even darker when clicked */
-  transform: translateY(0);       /* Reset lift */
+/* Status message */
+#uploadStatus {
+  margin-top: 10px;
+  font-weight: bold;
 }
+
+/* ==== Upload Statistics Modal ==== */
+.btn.btn-primary[data-bs-target="#uploadStatsModal"] {
+  display: inline-block;
+  margin: 10px 0 10px 5px;
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.btn.btn-primary[data-bs-target="#uploadStatsModal"]:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+}
+#uploadStatsModal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1055;
+  background-color: rgba(0, 0, 0, 0.55);
+  justify-content: center;
+  align-items: center;
+  overflow-y: auto;
+  transition: opacity 0.25s ease;
+}
+#uploadStatsModal.show {
+  display: flex !important;
+  opacity: 1;
+}
+body.modal-open { overflow: hidden; }
+#uploadStatsModal .modal-dialog {
+  width: 90%;
+  max-width: 700px;
+  margin: 0;
+}
+#uploadStatsModal .modal-content {
+  border-radius: 15px;
+  border: none;
+  background: #f9fbff;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  overflow: hidden;
+  transform: scale(0.9);
+  transition: transform 0.25s ease;
+}
+#uploadStatsModal.show .modal-content { transform: scale(1); }
+#uploadStatsModal .modal-header {
+  background: linear-gradient(135deg, #4e73df, #224abe);
+  color: #fff;
+  border: none;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+#uploadStatsModal .modal-title {
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin: 0;
+}
+#uploadStatsModal .btn-close {
+  filter: invert(1) brightness(2);
+  opacity: 0.9;
+  transition: 0.2s ease;
+}
+#uploadStatsModal .btn-close:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+#uploadStatsModal .modal-body {
+  padding: 25px 20px;
+  text-align: center;
+}
+#uploadStatsModal .btn-outline-primary {
+  border: 2px solid #4e73df;
+  color: #4e73df;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+#uploadStatsModal .btn-outline-primary:hover,
+#uploadStatsModal .btn-outline-primary.active {
+  background: #4e73df;
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(78, 115, 223, 0.3);
+}
+#uploadStatsModal canvas {
+  margin-top: 15px;
+  max-height: 300px;
+  width: 100%;
+}
+@media (max-width: 768px) {
+  #uploadStatsModal .modal-dialog { width: 95%; }
+  #uploadStatsModal .modal-body { padding: 15px; }
+  #uploadStatsModal .modal-header { padding: 12px 15px; }
+}
+

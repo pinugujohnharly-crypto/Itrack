@@ -189,9 +189,7 @@ $role = $_SESSION['role'];
                 <script src="bundle.js"></script>
 
                 
-                  <h2>Uploaded Files</h2>
-                  <ul id="fileList"></ul>
-                   <!-- Recently Uploaded (toggleable) -->
+                <!-- Recently Uploaded (toggleable) -->
 
              <div class="recent-box collapsed" id="recentBox">
                 <div class="recent-header" style="display:flex;align-items:center;justify-content:space-between;">
@@ -200,6 +198,11 @@ $role = $_SESSION['role'];
                 </div>
                 <ul id="recentList"></ul>
               </div>
+
+
+                  <h2>Uploaded Files</h2>
+                  <ul id="fileList"></ul>
+                   
 
 
 
