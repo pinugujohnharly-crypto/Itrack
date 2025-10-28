@@ -1,7 +1,8 @@
 <?php
-session_start();
 require_once '../database.php';
 require_once 'cors.php';
+session_start();
+
 // Number of files per page
 $limit = 10;
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;

@@ -1,7 +1,8 @@
 <?php
-session_start();
 require_once '../database.php';
 require_once 'cors.php';
+session_start();
+
 // Fetch 10 most recent approved files
 $sql = "SELECT id, filename, capstone_title, date_uploaded, url
         FROM uploaded_files

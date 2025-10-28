@@ -1,9 +1,10 @@
 <?php
 // api/post_comment.php
-session_start();
 require_once '../database.php';
-header('Content-Type: application/json');
 require_once 'cors.php';
+session_start();
+
+header('Content-Type: application/json');
 // ── 1) Only allow POST ────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   http_response_code(405);
