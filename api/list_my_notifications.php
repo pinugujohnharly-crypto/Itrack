@@ -3,7 +3,7 @@
 session_start();
 require_once '../database.php';
 header('Content-Type: application/json');
-
+require_once 'cors.php';
 // Pick the SAME identity you inserted as notifications.user_key
 $me = $_SESSION['username']
    ?? $_SESSION['name']

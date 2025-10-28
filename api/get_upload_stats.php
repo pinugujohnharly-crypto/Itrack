@@ -1,6 +1,6 @@
 <?php
 require_once '../database.php';
-
+require_once 'cors.php';
 $type = $_GET['type'] ?? 'daily';
 $validTypes = ['daily', 'weekly', 'monthly', 'yearly'];
 if (!in_array($type, $validTypes)) $type = 'daily';

@@ -17,8 +17,10 @@ if (!getApps().length) app = initializeApp(firebaseConfig);
 else app = getApps()[0];
 const storage = getStorage(app);
 
-// ===== API base (match your folder path exactly) =====
-const API_BASE = 'http://localhost/itrack';
+// ===== API base (auto-detect environment) =====
+const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+  ? 'http://localhost/itrack'  // Local development
+  : '/itrack';                   // Production (relative URL)
 
 // ===== Utils =====
 function escapeHtml(s) {

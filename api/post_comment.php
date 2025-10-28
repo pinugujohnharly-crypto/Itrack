@@ -3,7 +3,7 @@
 session_start();
 require_once '../database.php';
 header('Content-Type: application/json');
-
+require_once 'cors.php';
 // ── 1) Only allow POST ────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
   http_response_code(405);

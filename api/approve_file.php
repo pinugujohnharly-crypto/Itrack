@@ -1,6 +1,7 @@
 <?php
 // api/approve_file.php
 session_start();
+require_once 'cors.php';
 header('Content-Type: application/json');
 
 require_once '../database.php'; // $conn (mysqli)

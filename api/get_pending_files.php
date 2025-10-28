@@ -1,6 +1,6 @@
 <?php
 include '../database.php';
-
+require_once 'cors.php';
 header('Content-Type: application/json');
 
 $sql = "SELECT * FROM uploaded_files WHERE approved = 0 ORDER BY uploaded_at DESC";
