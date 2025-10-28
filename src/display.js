@@ -19,8 +19,8 @@ const storage = getStorage(app);
 
 // ===== API base (auto-detect environment) =====
 const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-  ? 'http://localhost/itrack'  // Local development
-  : '/itrack';                   // Production (relative URL)
+  ? 'http://localhost/itrack'
+  : '';  // Empty string for root
 
 // ===== Utils =====
 function escapeHtml(s) {
@@ -640,7 +640,7 @@ function loadMyNotifications() {
 }
 
 // ===== On page load =====
-window.addEventListener('DOMContentLoaded', listUploadedFiles);
+window.addEventListener('DOMContentLoaded', () => listUploadedFiles(1));
 
 // Per-item actions + comment-notif click to open modal & jump to reply
 document.getElementById('notifList')?.addEventListener('click', async (e) => {
