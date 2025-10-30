@@ -14,6 +14,35 @@
 
   <style>
     :root { --accent:#e11d48; }
+    html, body { max-width: 100%; overflow-x: hidden; }
+    /* Override broad rules from style/hmmenu.css on this page
+       to keep Bootstrap's navbar layout intact on small screens */
+    .navbar {
+      padding: .5rem 1rem;              /* prevent wrapping at small widths */
+      background-color: #fff;            /* match bg-white class */
+      border-bottom: 1px solid #dee2e6;  /* match border-bottom class */
+      font-size: 1rem;                   /* neutralize hmmenu.css x-large */
+    }
+    .navbar .navbar-toggler {            /* make tap target ≥44px */
+      margin-left: auto;
+      min-width: 44px;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .navbar .navbar-brand {              /* avoid odd wrapping */
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-width: 0; /* allow flex shrink to prevent overflow */
+    }
+    @media (max-width: 430px) {
+      .navbar { padding: .5rem .75rem; }
+      .navbar .navbar-brand { font-size: 1rem; }
+      .navbar .navbar-collapse { padding-top: .25rem; }
+      .navbar .nav-link { padding: .75rem .5rem; }
+    }
     .hero-bg {
       background:
         radial-gradient(40rem 40rem at 110% -10%, rgba(225,29,72,.06), transparent 40%),
@@ -31,7 +60,7 @@
       <a class="navbar-brand fw-bold" href="Homescreen.php">
         <i class="fa-solid fa-layer-group me-2 brand-accent"></i>CAPSTONE TRACKER
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="mainNav">
