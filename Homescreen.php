@@ -14,6 +14,7 @@
 
   <style>
     :root { --accent:#e11d48; }
+    html, body { max-width: 100%; overflow-x: hidden; }
     /* Override broad rules from style/hmmenu.css on this page
        to keep Bootstrap's navbar layout intact on small screens */
     .navbar {
@@ -34,6 +35,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      min-width: 0; /* allow flex shrink to prevent overflow */
     }
     @media (max-width: 430px) {
       .navbar { padding: .5rem .75rem; }
