@@ -204,9 +204,10 @@ $role = $_SESSION['role'];
   </div>
 </div>
 
+<?php if (strtolower($_SESSION['role']) === 'admin'): ?>
 <!-- Button to Open Modal -->
 <button class="btn btn-primary" onclick="openManageFiles()">📂 Manage Uploaded Files</button>
-
+<?php endif; ?>
 
 
                 <!-- Recently Uploaded (toggleable) -->

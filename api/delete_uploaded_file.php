@@ -4,7 +4,7 @@ require_once '../database.php';
 session_start();
 
 // ✅ Optional: Only admin can delete
-if (!isset($_SESSION['role']) || strtolower($_SESSION['role']) !== 'admin') {
+if (!isset($_SESSION['role']) || strtolower($_SESSION['role']) !== 'admin' && $_SESSION['role'] !== 'contributor') {
     echo json_encode(["ok" => false, "error" => "Unauthorized access"]);
     exit;
 }
