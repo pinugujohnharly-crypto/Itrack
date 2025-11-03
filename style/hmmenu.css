@@ -2,8 +2,17 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
+   overflow-x: hidden;
 }
-
+.uploaded-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #007bff;
+  margin-bottom: 10px;
+}
+.uploaded-title {
+  margin-left: 20px; /* adjust this value as needed */
+}
 .navbar {
  background-color: #333;
   overflow: visible;

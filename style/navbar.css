@@ -144,7 +144,7 @@
   margin-right: -1230px;
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 10px;
 }
 
 .notif-btn {
@@ -255,40 +255,55 @@
 }
 
 /* ===========================
-   PAGER (unchanged)
+   PAGER STYLES
    =========================== */
+
+/* === Desktop Default === */
 .pager {
   display: flex;
   gap: 8px;
   align-items: center;
   justify-content: center;
+  position: fixed;
+bottom: 20px; left: 30%;
+  transform: translateX(-50%);
   padding: 14px 10px;
+  z-index: 100;
 }
 
 .pager button,
 .pager .ellipsis {
-  z-index: 600;
   min-width: 40px;
   height: 40px;
   padding: 0 12px;
   border: none;
   border-radius: 10px;
-  background: #202020;
+  background:  #007bff;
   color: #fff;
   font-weight: 700;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 600;
+  transition: filter 0.2s ease;
 }
 
-.pager button:hover { filter: brightness(1.06); }
-.pager button[disabled], .pager button.is-active {
+.pager button:hover {
+  filter: brightness(1.06);
+}
+
+.pager button[disabled],
+.pager button.active {
   cursor: default;
   filter: none;
 }
-.pager button.is-active { background: #f80303; }
+
+.pager button.active {
+  background: #f80303;
+}
+
 .pager .ellipsis {
   background: transparent;
   color: #f80303;
@@ -297,6 +312,30 @@
   min-width: auto;
   padding: 0 6px;
 }
+
+/* === Mobile Adjustments === */
+@media (max-width: 768px) {
+  .pager {
+    position: relative;   /* not fixed — follows layout */
+    bottom: auto;
+    left: auto;
+    transform: none;
+    margin-top: 16px;
+    margin-bottom: 40px;
+    justify-content: center;
+    width: 100%;
+    z-index: 1;
+  }
+
+  .pager button,
+  .pager .ellipsis {
+    min-width: 36px;
+    height: 36px;
+    font-size: 14px;
+    border-radius: 8px;
+  }
+}
+
 
 /* ===========================
    MOBILE RESPONSIVE FIX
@@ -350,4 +389,18 @@
     width: 90%;
     max-height: 70vh;
   }
+.notif-wrap {
+  position: relative;
+  margin-right: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+#trimextag.navbar a {
+  color: white;
+  text-decoration: none;
+  font-size: smaller;
+  padding: 10px;
+  transition: background 0.3s;
+}
 }

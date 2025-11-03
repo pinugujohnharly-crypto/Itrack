@@ -36,7 +36,7 @@ $role = $_SESSION['role'];
 
           <div class="navbar">
             <div class="trimexlogo">
-              <a href="#">
+              <a  id="trimextag" href="#">
                  CAPSTONE TRACKER
               </a>
             </div>
@@ -221,7 +221,7 @@ $role = $_SESSION['role'];
               </div>
 
 
-                  <h2>Uploaded Files</h2>
+              <h2 class="uploaded-title">Uploaded Files</h2>
                   <ul id="fileList"></ul>
                    
 
