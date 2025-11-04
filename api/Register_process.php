@@ -37,11 +37,51 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt = $conn->prepare("INSERT INTO users (first_name, last_name, username, password_hash, role) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("sssss", $first_name, $last_name, $username, $hashed_password, $role);
 
-    if ($stmt->execute()) {
-        echo "Registration successful. <a href='../Homescreen.php'>Click here to login</a>";
-    } else {
-        echo "Registration failed. Please try again later.";
-    }
+if ($stmt->execute()) {
+    echo "
+    <html>
+    <head>
+      <meta http-equiv='refresh' content='2;url=../Homescreen.php'>
+      <style>
+        body {
+          background: #f9fafc;
+          font-family: Arial, sans-serif;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          color: #333;
+        }
+        .message-box {
+          background: #fff;
+          padding: 30px 40px;
+          border-radius: 10px;
+          box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+          text-align: center;
+        }
+        .message-box h2 {
+          color: #007bff;
+          margin-bottom: 10px;
+        }
+        .message-box p {
+          font-size: 14px;
+          color: #555;
+        }
+      </style>
+    </head>
+    <body>
+      <div class='message-box'>
+        <h2>Registration Successful!</h2>
+        <p>Redirecting to home page...</p>
+      </div>
+    </body>
+    </html>
+    ";
+    exit;
+} else {
+    echo "Registration failed. Please try again later.";
+}
+
 
     // Clean up
     $stmt->close();
