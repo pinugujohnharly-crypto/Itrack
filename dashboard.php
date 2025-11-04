@@ -220,8 +220,12 @@ $role = $_SESSION['role'];
                 <ul id="recentList"></ul>
               </div>
 
-
+          <div class="header-container">
               <h2 class="uploaded-title">Uploaded Files</h2>
+             <div class="search-container">
+               <input type="text" id="searchInput" placeholder="🔍 Search capstone by title, author, or year...">
+            </div>
+        </div>
                   <ul id="fileList"></ul>
                    
 

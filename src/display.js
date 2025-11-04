@@ -641,6 +641,56 @@ function loadMyNotifications() {
 
 // ===== On page load =====
 window.addEventListener('DOMContentLoaded', () => listUploadedFiles(1));
+/* 🔍 ===== Live Search ===== */
+document.getElementById('searchInput')?.addEventListener('input', async function () {
+  const query = this.value.trim();
+  const list = document.getElementById('fileList');
+
+  if (!query) {
+    listUploadedFiles(); // show all when cleared
+    return;
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/api/search_files.php?q=${encodeURIComponent(query)}`, { cache: 'no-store' });
+    const files = await res.json();
+    list.innerHTML = '';
+
+    if (!files.length) {
+      list.innerHTML = '<li style="text-align:center;">No matching results.</li>';
+      return;
+    }
+
+    files.forEach(file => {
+      const li = document.createElement('li');
+      li.classList.add('file-item');
+
+      const link = document.createElement('a');
+      link.href = '#';
+      const title = file.capstone_title || file.filename;
+      const year = file.year_published ? ` (${file.year_published})` : '';
+      link.textContent = title + year;
+
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        currentFileName = file.filename;
+        openModal(file);
+        fetchComments(currentFileName);
+      });
+
+      const meta = document.createElement('div');
+      meta.classList.add('file-meta');
+      meta.textContent = file.authors ? `Authors: ${file.authors}` : '';
+
+      li.appendChild(link);
+      li.appendChild(meta);
+      list.appendChild(li);
+    });
+  } catch (err) {
+    console.error('Search error:', err);
+    list.innerHTML = '<li style="color:red;text-align:center;">Error searching files.</li>';
+  }
+});
 
 // Per-item actions + comment-notif click to open modal & jump to reply
 document.getElementById('notifList')?.addEventListener('click', async (e) => {
