@@ -1,3 +1,9 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+   overflow-x: hidden;
+}
 /* ===========================
    BASE NAVBAR STYLES
    =========================== */
@@ -6,8 +12,9 @@
   overflow: visible;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
+  padding: 10px 30px;
   position: relative;
   z-index: 999;
 }
@@ -18,8 +25,8 @@
   font-weight: 500;
   font-size: 1rem;
   text-decoration: none;
-  margin-left: auto;
-  margin-right: 5px;
+  margin-left: 0;
+  margin-right: 10px;
   padding: 6px 12px;
   border-radius: 6px;
   background-color: rgba(255, 255, 255, 0.1);
@@ -36,115 +43,24 @@
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0px;
 }
 
-/* NAV LINKS */
-.navbar a {
-  color: white;
+
+.trimexlogo a {
+  font-weight: bold;
   text-decoration: none;
-  padding: 10px;
-  transition: background 0.3s;
+  color: #222;
 }
-
-.navbar a.active {
-  background-color: green;
-  color: white;
-  border-radius: 5px;
-}
-
-.navbar a:hover {
-  background-color: #575757;
-  border-radius: 6px;
-}
-
-/* LOGOUT BUTTON */
-.navbar a.logout {
-  background-color: #dc3545;
-  color: white;
-  border-radius: 5px;
-  padding: 10px 12px;
-  font-size: 14px;
-  text-decoration: none;
-  display: inline-block;
-  transition: background-color 0.2s ease;
-}
-
-.navbar a.logout:hover {
-  background-color: #c82333;
-}
-
-/* PROFILE DROPDOWN */
-.profile-dropdown {
-  position: relative;
-  display: flex;
-  align-items: center;
-  z-index: 1001;
-}
-
-.profile-btn {
-  background-color: transparent;
-  color: white;
-  border: none;
-  padding: 10px 12px;
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.profile-btn:hover {
-  background-color: #444;
-}
-
-/* DROPDOWN MENU */
-.dropdown-menu {
-  display: none;
-  position: absolute;
-  right: 0;
-  top: 100%;
-  background-color: #ffffff;
-  min-width: 160px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  z-index: 2002;
-  flex-direction: column;
-  border-radius: 5px;
-  overflow: hidden;
-}
-
-.dropdown-menu a {
-  color: #000;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-.dropdown-menu a:hover {
-  background-color: #f5f5f5;
-}
-
-.profile-dropdown.show .dropdown-menu {
-  display: flex;
-}
-
-/* DROPDOWN LOGOUT */
-.dropdown-menu a.logout {
-  background-color: #dc3545;
-  text-align: center;
-}
-
-.dropdown-menu a.logout:hover {
-  background-color: #c82333;
-}
-
 /* ===========================
    NOTIFICATION PANEL
    =========================== */
 .notif-wrap {
-  position: relative;
-  margin-right: -1230px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 10px; /* space between username and bell */
+  margin-left: auto; /* pushes this group to the right */
+  margin-right: 15px; /* space before profile */
 }
 
 .notif-btn {
@@ -253,6 +169,107 @@
   color: #6b7280;
   margin-top: 2px;
 }
+
+
+
+
+/* NAV LINKS */
+.navbar a {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  transition: background 0.3s;
+}
+
+.navbar a.active {
+  background-color: green;
+  color: white;
+  border-radius: 5px;
+}
+
+.navbar a:hover {
+  background-color: #575757;
+  border-radius: 100px;
+}
+
+/* LOGOUT BUTTON */
+.navbar a.logout {
+  background-color: #dc3545;
+  color: white;
+  border-radius: 5px;
+  padding: 10px 12px;
+  font-size: 14px;
+  text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.2s ease;
+}
+
+.navbar a.logout:hover {
+  background-color: #c82333;
+}
+
+/* PROFILE DROPDOWN */
+.profile-dropdown {
+  position: relative;
+  display: flex;
+  align-items: center;
+  z-index: 1001;
+}
+
+.profile-btn {
+  background-color: transparent;
+  color: white;
+  border: none;
+  padding: 10px 12px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.profile-btn:hover {
+  background-color: #444;
+}
+
+/* DROPDOWN MENU */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background-color: #ffffff;
+  min-width: 160px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 2002;
+  flex-direction: column;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.dropdown-menu a {
+  color: #000;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f5f5f5;
+}
+
+.profile-dropdown.show .dropdown-menu {
+  display: flex;
+}
+
+/* DROPDOWN LOGOUT */
+.dropdown-menu a.logout {
+  background-color: #dc3545;
+  text-align: center;
+}
+
+.dropdown-menu a.logout:hover {
+  background-color: #c82333;
+}
+
 
 /* ===========================
    PAGER STYLES
