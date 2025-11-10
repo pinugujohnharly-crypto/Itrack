@@ -40,7 +40,9 @@ $role = $_SESSION['role'];
                  CAPSTONE TRACKER
               </a>
             </div>
-
+ <div class="navslide">
+  <button id="navToggle" class="nav-toggle">☰</button>
+  </div>
   <!-- Notification Bell -->
     <div class="notif-wrap"> 
       <a id="username">Welcome, <?= $_SESSION['username']; ?> (<?= $role ?>)</a>
@@ -101,14 +103,46 @@ $role = $_SESSION['role'];
     <div id="uploadStatus"></div>
   </div>
 </div>
-
-<?php if (strtolower($_SESSION['role']) === 'admin'): ?>
+ <!-- Sidebar -->
+  <div class="navslide-container">
+  <div id="sidebar" class="sidebar">
+  <?php if (strtolower($_SESSION['role']) === 'admin' || strtolower($_SESSION['role']) === 'contributor'): ?>
 
                   <!-- contri Modal -->
-              <button id="openContributorModal" class="btn-green">
-                    ➕ Create Contributor
-                    </button>
+              <button id="openContributorModal" class="btn-green">   ➕ Create Contributor</button>
+                      <button id="openApprovalModal" class="admin-btn">🛠 Pending Approvals</button>
+                      <button class="btn btn-primary" onclick="openManageFiles()">📂 Manage Uploaded Files</button>
               <?php endif; ?>
+              
+
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadStatsModal">
+  View Upload Statistics
+</button>
+
+  </div>
+</div>
+
+
+
+
+
+                <!-- 🔹 Manage Files Modal -->
+<div id="manageFilesModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <div id="pdfDrawer" class="pdf-drawer">
+  <div class="pdf-drawer-header">
+    <h3>📄 PDF Preview</h3>
+    <button class="close-btn" onclick="closePdfDrawer()">×</button>
+  </div>
+  <div id="pdfDrawerContent" class="pdf-drawer-content"></div>
+</div>
+    <button onclick="closeManageFiles()" class="close-btn">&times;</button>
+    <h2>Manage Uploaded Files</h2>
+    <div id="manageFilesContainer">Loading files...</div>
+  </div>
+</div>
+
+
 
 
 <!-- Contributor Modal -->
@@ -140,10 +174,7 @@ $role = $_SESSION['role'];
 <!-- Link the external JS -->
 <script src="src/contributor.js"></script>
 
-<?php if (strtolower($_SESSION['role']) === 'admin' || strtolower($_SESSION['role']) === 'contributor'): ?>
-                  <!-- Admin Approval Modal -->
-                    <button id="openApprovalModal" class="admin-btn">🛠 Pending Approvals</button>
-      <?php endif; ?>
+
                   <!-- Admin Approval Modal -->
                   <div id="approvalModal" class="amodal" style="display: none;">
                     <div class="modal-content">
@@ -153,10 +184,7 @@ $role = $_SESSION['role'];
                     </div>
                   </div>
 
-<!-- Button to Open Modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#uploadStatsModal">
-  View Upload Statistics
-</button>
+
 
 <!-- Modal -->
 <div class="modal fade" id="uploadStatsModal" tabindex="-1" aria-labelledby="uploadStatsModalLabel" aria-hidden="true">
@@ -279,6 +307,7 @@ $role = $_SESSION['role'];
 
 
 <script src="src/dropdown.js"></script>
+<script src="src/navslide.js"></script>
 <script type="module">
   import { openUploadModal, closeUploadModal } from './src/modal-control.js';
   // Attach the functions to buttons
@@ -372,7 +401,6 @@ function closePdfDrawer() {
 
 
 </script>
-
 
 
  <script type="module" src="src/display.js"></script>

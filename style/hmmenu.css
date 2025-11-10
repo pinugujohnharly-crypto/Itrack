@@ -61,41 +61,4 @@
   }
 }
 
-.navbar {
- background-color: #333;
-  overflow: visible;
-  align-items: center;
-  padding: 10px 20px;
-  position: relative;
-flex-wrap: wrap;
-  display: flex;              
-  justify-content: space-between; 
-  background-color: rgb(226, 226, 226);
-  font-size: x-large;
-  border-bottom: 5px solid #e60404;
-}
-
-/* Container for login and signup links */
-.auth-links {
-  display: flex;
-  gap: 15px; /* space between buttons */
-  margin-left: auto;
-}
-
-/* Style for both links */
- .auth-links a {
-  
-  text-decoration: none;
-  font-size: 15px !important; /* Try a larger size */
-  font-weight: bold;
-  color: black !important;
-  padding: 15px 12px;
-  border-radius: 600px;
-  transition: background-color 0.2s ease;
-}
-
-.auth-links a:hover {
-  background-color: #7bbdf3;
-}
-
 

@@ -2,21 +2,46 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-   overflow-x: hidden;
+  overflow-x: hidden;
 }
+
 /* ===========================
    BASE NAVBAR STYLES
    =========================== */
 .navbar {
-  background-color: #333;
+  background-color: rgb(46, 45, 45);
   overflow: visible;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 30px;
+  padding: 10px 20px;
   position: relative;
   z-index: 999;
+  font-size: x-large;
+  border-bottom: 5px solid #e60404;
+}
+
+/* Container for login and signup links */
+.auth-links {
+  display: flex;
+  gap: 15px; /* space between buttons */
+  margin-left: auto;
+}
+
+/* Style for both links */
+.auth-links a {
+  text-decoration: none;
+  font-size: 15px !important;
+  font-weight: bold;
+  color: black !important;
+  padding: 15px 12px;
+  border-radius: 600px;
+  transition: background-color 0.2s ease;
+}
+
+.auth-links a:hover {
+  background-color: #7bbdf3;
 }
 
 /* USERNAME */
@@ -46,21 +71,21 @@ body {
   gap: 0px;
 }
 
-
 .trimexlogo a {
   font-weight: bold;
   text-decoration: none;
   color: #222;
 }
+
 /* ===========================
    NOTIFICATION PANEL
    =========================== */
 .notif-wrap {
   display: flex;
   align-items: center;
-  gap: 10px; /* space between username and bell */
-  margin-left: auto; /* pushes this group to the right */
-  margin-right: 15px; /* space before profile */
+  gap: 10px;
+  margin-left: auto;
+  margin-right: 15px;
 }
 
 .notif-btn {
@@ -71,6 +96,7 @@ body {
   padding: 6px 10px;
   cursor: pointer;
 }
+
 .notif-btn:hover {
   background: #444;
 }
@@ -170,9 +196,6 @@ body {
   margin-top: 2px;
 }
 
-
-
-
 /* NAV LINKS */
 .navbar a {
   color: white;
@@ -271,88 +294,6 @@ body {
 }
 
 
-/* ===========================
-   PAGER STYLES
-   =========================== */
-
-/* === Desktop Default === */
-.pager {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-bottom: 20px; left: 30%;
-  transform: translateX(-50%);
-  padding: 14px 10px;
-  z-index: 100;
-}
-
-.pager button,
-.pager .ellipsis {
-  min-width: 40px;
-  height: 40px;
-  padding: 0 12px;
-  border: none;
-  border-radius: 10px;
-  background:  #007bff;
-  color: #fff;
-  font-weight: 700;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-  z-index: 600;
-  transition: filter 0.2s ease;
-}
-
-.pager button:hover {
-  filter: brightness(1.06);
-}
-
-.pager button[disabled],
-.pager button.active {
-  cursor: default;
-  filter: none;
-}
-
-.pager button.active {
-  background: #f80303;
-}
-
-.pager .ellipsis {
-  background: transparent;
-  color: #f80303;
-  box-shadow: none;
-  cursor: default;
-  min-width: auto;
-  padding: 0 6px;
-}
-
-/* === Mobile Adjustments === */
-@media (max-width: 768px) {
-  .pager {
-    position: relative;   /* not fixed — follows layout */
-    bottom: auto;
-    left: auto;
-    transform: none;
-    margin-top: 16px;
-    margin-bottom: 40px;
-    justify-content: center;
-    width: 100%;
-    z-index: 1;
-  }
-
-  .pager button,
-  .pager .ellipsis {
-    min-width: 36px;
-    height: 36px;
-    font-size: 14px;
-    border-radius: 8px;
-  }
-}
-
 
 /* ===========================
    MOBILE RESPONSIVE FIX
@@ -364,7 +305,6 @@ bottom: 20px; left: 30%;
     padding: 10px 15px;
   }
 
-  /* hide normal links and right section by default */
   .nav-right {
     display: none;
     flex-direction: column;
@@ -376,12 +316,10 @@ bottom: 20px; left: 30%;
     left: 0;
   }
 
-  /* when open */
   .navbar.open .nav-right {
     display: flex;
   }
 
-  /* add hamburger */
   .menu-toggle {
     background: transparent;
     border: none;
@@ -390,15 +328,7 @@ bottom: 20px; left: 30%;
     cursor: pointer;
   }
 
-  /* adjust dropdown and notif for smaller screens */
-  .dropdown-menu {
-   position: fixed;
-    top: 60px;
-    right: 10px;
-    width: 90%;
-    max-height: 70vh;
-  }
-
+  .dropdown-menu,
   .notif-dropdown {
     position: fixed;
     top: 60px;
@@ -406,18 +336,274 @@ bottom: 20px; left: 30%;
     width: 90%;
     max-height: 70vh;
   }
-.notif-wrap {
-  position: relative;
-  margin-right: 5px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
+
+  .notif-wrap {
+    position: relative;
+    margin-right: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  #trimextag.navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: smaller;
+    padding: 10px;
+    transition: background 0.3s;
+  }
 }
-#trimextag.navbar a {
-  color: white;
+
+/* ==============================================
+   NAVSLIDE SIDEBAR
+   ============================================== */
+.navslide-container {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f4f4;
+}
+
+.navslide-container .sidebar {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  width: 300px;
+  height: calc(100% - 60px);
+  background: #1b1c2a;
+  color: #fff;
+  padding-top: 20px;
+  transition: left 0.3s ease;
+  z-index: 900;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+}
+
+.navslide-container .sidebar h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 18px;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+.navslide-container .sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.navslide-container .sidebar ul li {
+  padding: 12px 18px;
+}
+
+.navslide-container .sidebar ul li a {
+  color: #e2e2e2;
   text-decoration: none;
-  font-size: smaller;
-  padding: 10px;
-  transition: background 0.3s;
+  font-size: 15px;
+  display: block;
+  transition: background 0.2s ease, color 0.2s ease;
 }
+
+.navslide-container .sidebar ul li:hover a {
+  background: #27293d;
+  color: #fff;
+  border-radius: 6px;
+}
+
+.navslide-container .navslide {
+  margin-left: 210px;
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+}
+
+.navslide-container .nav-toggle {
+  position: absolute;
+  top: 12px;
+  left: 15px;
+  background: #333;
+  color: #fff;
+  border: none;
+  font-size: 20px;
+  padding: 6px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+.navslide-container .nav-toggle:hover {
+  background: #444;
+}
+
+.navslide-container .sidebar.closed {
+  left: -300px;
+}
+
+.navslide-container .navslide.closed {
+  margin-left: 0;
+}
+
+@media (max-width: 768px) {
+  .navslide-container .sidebar {
+    top: 50px;
+    width: 190px;
+    height: calc(100% - 50px);
+  }
+
+  .navslide-container .sidebar.closed {
+    left: -190px;
+  }
+
+  .navslide-container .navslide {
+    margin-left: 0;
+  }
+
+  .navslide-container .nav-toggle {
+    top: 10px;
+    left: 10px;
+    font-size: 18px;
+    padding: 5px 9px;
+  }
+}
+
+/* contributor button */
+.btn-green {
+  display: inline-block;
+  margin: 10px 0 10px 15px;
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.btn-green:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+}
+.btn-green:active {
+  background-color: #004494;
+  transform: translateY(0);
+}
+
+/* Status message */
+#uploadStatus {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+
+/* pending approval */
+.admin-btn {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin: 10px 0;
+}
+.admin-btn:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+.admin-btn:active {
+  background-color: #004494;
+  transform: translateY(0);
+}
+
+.btn.btn-primary[data-bs-target="#uploadStatsModal"] {
+  display: inline-block;
+  margin: 10px 0 10px 5px;
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+.btn.btn-primary[data-bs-target="#uploadStatsModal"]:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+}
+
+
+
+/* ==== Manage Files Button (Modal Trigger) ==== */
+.btn.btn-primary[onclick="openManageFiles()"] {
+display: inline-block;
+  margin: 10px 0 10px 5px;
+  padding: 10px 15px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn.btn-primary[onclick="openManageFiles()"]:hover {
+  background-color: #2e59d9;
+  transform: translateY(-2px);
+}
+
+.btn.btn-primary[onclick="openManageFiles()"]:active {
+  background-color: #224abe;
+  transform: translateY(0);
+}
+
+/* ==== Unified Sidebar Button Style ==== */
+.sidebar button,
+.sidebar .btn-green,
+.sidebar .admin-btn,
+.sidebar .btn.btn-primary {
+  display: block;
+  width: 85%;
+  margin: 10px auto;
+  padding: 10px 15px;
+  background: linear-gradient(145deg, #27293d, #1f2033);
+  color: #e2e2e2;
+  border: 1px solid #2e3050;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: inset 0 0 4px rgba(255,255,255,0.05), 0 2px 4px rgba(0,0,0,0.3);
+  transition: all 0.25s ease;
+}
+
+/* Hover and active effects */
+.sidebar button:hover,
+.sidebar .btn-green:hover,
+.sidebar .admin-btn:hover,
+.sidebar .btn.btn-primary:hover {
+  background: linear-gradient(145deg, #32344a, #2b2d43);
+  color: #fff;
+  transform: translateX(4px);
+}
+
+.sidebar button:active,
+.sidebar .btn-green:active,
+.sidebar .admin-btn:active,
+.sidebar .btn.btn-primary:active {
+  background: #1e1f2e;
+  transform: translateX(0);
+}
+
+/* Optional icon spacing inside buttons */
+.sidebar button i,
+.sidebar .btn-green i,
+.sidebar .admin-btn i,
+.sidebar .btn.btn-primary i {
+  margin-right: 8px;
+  color: #00c6ff;
 }
