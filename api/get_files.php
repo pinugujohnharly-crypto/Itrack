@@ -4,7 +4,7 @@ require_once 'cors.php';
 
 require_once '../database.php';
 // Number of files per page
-$limit = 10;
+$limit = 15;
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 $offset = ($page - 1) * $limit;
 

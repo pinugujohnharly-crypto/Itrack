@@ -14,3 +14,4 @@ navToggle.addEventListener("click", () => {
   document.body.classList.toggle("no-scroll"); // 👈 add this
 });
 
+

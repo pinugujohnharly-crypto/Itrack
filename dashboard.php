@@ -103,6 +103,8 @@ $role = $_SESSION['role'];
     <div id="uploadStatus"></div>
   </div>
 </div>
+
+
  <!-- Sidebar -->
   <div class="navslide-container">
   <div id="sidebar" class="sidebar">
@@ -239,23 +241,24 @@ $role = $_SESSION['role'];
 
 
                 <!-- Recently Uploaded (toggleable) -->
-
+<div class="content-container">
              <div class="recent-box collapsed" id="recentBox">
                 <div class="recent-header" style="display:flex;align-items:center;justify-content:space-between;">
                   <h3>Recently Uploaded</h3>
-                  <button id="toggleRecent" class="arrow-btn">⮞</button>
                 </div>
                 <ul id="recentList"></ul>
               </div>
 
-          <div class="header-container">
-              <h2 class="uploaded-title">Uploaded Files</h2>
-             <div class="search-container">
-               <input type="text" id="searchInput" placeholder="🔍 Search capstone by title, author, or year...">
-            </div>
-        </div>
+          <div class="uploaded-files">
+  <div class="header-container">
+    <h2 class="uploaded-title">Uploaded Files</h2>
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="🔍 Search capstone by title, author, or year...">
+    </div>
+  </div>
+</div>
                   <ul id="fileList"></ul>
-                   
+  </div>                
 
 
 

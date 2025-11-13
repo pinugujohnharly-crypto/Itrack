@@ -5,8 +5,20 @@ body {
   overflow-x: hidden;
 }
 html, body {
-  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* keep hidden */
 }
+
+.content-container {
+  height: calc(100vh - 60px); /* match your header/sidebar height */
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 100px; /* adds more scroll space at the bottom */
+  box-sizing: border-box;
+}
+
 
 /* ===========================
    BASE NAVBAR STYLES

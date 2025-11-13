@@ -89,29 +89,22 @@ async function loadRecentFiles() {
     console.error("Failed to load recent files", err);
   }
 }
+//
 window.addEventListener('DOMContentLoaded', () => {
   loadRecentFiles();
   // 🔹 Toggle slide in/out for recent box
- const toggleBtn = document.getElementById("toggleRecent");
-const recentBox = document.getElementById("recentBox");
-
- // ✅ Always start OPEN (remove collapsed on load)
-  if (recentBox) {
-    recentBox.classList.remove("collapsed");
-    if (toggleBtn) toggleBtn.textContent = "⮜"; // left arrow for open state
-  }
-toggleBtn?.addEventListener("click", () => {
-  recentBox.classList.toggle("collapsed");
-  toggleBtn.textContent = recentBox.classList.contains("collapsed") ? "⮞" : "⮜";
-  
 });
 
-});
+
 
 async function listUploadedFiles(page = 1) {
   const list = document.getElementById("fileList");
   if (!list) return;
+
+  list.classList.remove("loaded");
   list.innerHTML = "";
+
+  // 🔹 Skeleton loader
   for (let i = 0; i < 9; i++) {
     const skeleton = document.createElement("li");
     skeleton.classList.add("skeleton-item");
@@ -126,14 +119,13 @@ async function listUploadedFiles(page = 1) {
 // ✅ Ask backend for files + pagination info
     const res = await fetch(`${API_BASE}/api/get_files.php?page=${page}`, { cache: "no-store", credentials: "include" });
     const text = await res.text();  // Get raw text first
-    console.log("Raw response:", text);  // See what's actually returned
     const data = JSON.parse(text);  // Then parse
     const { files, totalPages } = data;
 
     list.innerHTML = "";
 
-    // Render files
-    files.forEach(file => {
+    // 🔹 Render real items
+    data.files.forEach(file => {
       const li = document.createElement("li");
       li.classList.add("file-item");
 
@@ -171,6 +163,7 @@ async function listUploadedFiles(page = 1) {
     list.innerHTML = "Failed to load files.";
   }
 }
+
 // ===== Pagination builder =====
 function buildPager(container, totalPages, currentPage, onPageChange) {
   container.innerHTML = "";

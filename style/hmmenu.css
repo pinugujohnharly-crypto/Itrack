@@ -1,61 +1,87 @@
 .header-container {
   display: flex;
-  padding: 20px 10px;
   align-items: center;
-  justify-content: flex-start;
-  margin-bottom: 20px;
-  flex-wrap: nowrap; /* prevents wrapping */
+  justify-content: space-between;
+  padding: 20px 40px;
+  margin: 20px 0 20px 200px;
+  width: calc(100% - 200px); /* keep same look but adaptive */
+  background: #fff;
+  position: sticky;
+  top: 0;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap; /* allow smooth wrapping when resized */
+  gap: 20px; /* natural gap */
+  transition: all 0.3s ease; /* smooth resizing */
+  z-index: 10;
 }
 
 .uploaded-title {
-  font-size: 24px;
+  font-size: clamp(20px, 2vw, 24px); /* responsive font */
   font-weight: bold;
   color: #0e0f0f;
   margin: 0;
+  white-space: nowrap; /* prevent breaking */
+  flex-shrink: 0;
 }
 
 .search-container {
-  margin-left: 100px; /* pushes it to the right */
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  min-width: 260px;
 }
 
 #searchInput {
-  width: 260px;
+  width: clamp(200px, 25%, 300px); /* scales naturally */
   padding: 10px 14px;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 15px;
-  transition: 0.2s;
+  transition: all 0.25s ease;
 }
 
 #searchInput:focus {
   border-color: #007bff;
-  box-shadow: 0 0 4px #007bff50;
-  outline: none;
+  box-shadow: 0 0 6px rgba(0,123,255,0.3);
+  transform: scale(1.02);
 }
 
-/* ===== Mobile Responsive ===== */
+/* Keep file list spacing consistent */
+#fileList {
+  margin-top: 10px;
+}
+
+/* ===== Tablet and Mobile Responsive ===== */
+@media (max-width: 1024px) {
+  .header-container {
+    margin: 20px;
+    width: auto;
+  }
+}
+
 @media (max-width: 600px) {
   .header-container {
     flex-direction: column;
     align-items: stretch;
     gap: 10px;
-    padding: 10px;
+    padding: 15px;
+    margin: 10px;
+    width: auto;
   }
 
   .uploaded-title {
     font-size: 20px;
-    margin: 0 0 5px 0;
     text-align: center;
   }
 
   .search-container {
-    margin-left: 0;  /* remove auto for mobile */
-    text-align: center;
+    justify-content: center;
     width: 100%;
   }
 
   #searchInput {
-    width: 90%;
-    max-width: none;
+    width: 100%;
   }
 }
