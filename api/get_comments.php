@@ -1,6 +1,6 @@
 <?php
 require_once 'cors.php';
-include '../database.php';
+require_once __DIR__ . '/../database.php';
 header('Content-Type: application/json');
 
 // Get file name from query string

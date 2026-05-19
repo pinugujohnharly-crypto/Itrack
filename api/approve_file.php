@@ -5,7 +5,7 @@ session_start();
 
 header('Content-Type: application/json');
 
-require_once '../database.php'; // $conn (mysqli)
+require_once __DIR__ . '/../database.php'; // $conn (mysqli)
 
 // (Optional) simple admin check
 if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'admin' && $_SESSION['role'] !== 'contributor')) {

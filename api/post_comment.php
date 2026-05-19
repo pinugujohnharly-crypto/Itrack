@@ -2,7 +2,7 @@
 // api/post_comment.php
 require_once 'cors.php';
 session_start();
-require_once '../database.php';
+require_once __DIR__ . '/../database.php';
 header('Content-Type: application/json');
 // ── 1) Only allow POST ────────────────────────────────────────────────────────
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

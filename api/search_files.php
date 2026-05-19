@@ -1,6 +1,6 @@
 <?php
 require_once 'cors.php';
-include '../database.php'; // adjust path if needed
+require_once __DIR__ . '/../database.php';
 header('Content-Type: application/json');
 
 $q = trim($_GET['q'] ?? '');

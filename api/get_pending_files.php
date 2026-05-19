@@ -1,5 +1,5 @@
 <?php
-include '../database.php';
+require_once __DIR__ . '/../database.php';
 require_once 'cors.php';
 header('Content-Type: application/json');
 

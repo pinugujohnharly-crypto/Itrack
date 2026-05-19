@@ -18,9 +18,7 @@ else app = getApps()[0];
 const storage = getStorage(app);
 
 // ===== API base (auto-detect environment) =====
-const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-  ? 'http://localhost/itrack'
-  : '';  // Empty string for root
+const API_BASE = `${window.location.origin}${window.location.pathname.replace(/\/[^/]*$/, '')}`;
 
 // ===== Utils =====
 function escapeHtml(s) {

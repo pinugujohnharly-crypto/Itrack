@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-require_once '../database.php';
+require_once __DIR__ . '/../database.php';
 session_start();
 
 // ✅ Optional: Only admin can delete

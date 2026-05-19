@@ -2,7 +2,7 @@
 // api/mark_notification_read.php  (mark ONE notification as read)
 require_once 'cors.php';
 session_start();
-require_once '../database.php';
+require_once __DIR__ . '/../database.php';
 header('Content-Type: application/json');
 $user_key = $_SESSION['user_key'] 
          ?? $_SESSION['username']   // ✅ fallback to username

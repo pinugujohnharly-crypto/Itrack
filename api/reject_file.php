@@ -5,7 +5,7 @@ session_start();
 header('Content-Type: application/json');
 
 // Use the SAME include you use in approve_file.php:
-require_once '../database.php';   // must provide $conn (mysqli)
+require_once __DIR__ . '/../database.php';   // must provide $conn (mysqli)
 
 // Optional: simple admin check (remove if you don't use roles)
 if (!isset($_SESSION['role']) || ($_SESSION['role'] !== 'admin' && $_SESSION['role'] !== 'contributor')) {

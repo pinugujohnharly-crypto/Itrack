@@ -1,6 +1,6 @@
 <?php
 require_once 'cors.php';
-require_once '../database.php';
+require_once __DIR__ . '/../database.php';
 
 $type = $_GET['type'] ?? 'daily';
 $validTypes = ['daily', 'weekly', 'monthly', 'yearly'];
